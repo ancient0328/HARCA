@@ -1,0 +1,14 @@
+{
+	"type": "module",
+	"scripts": {
+		"create-log-entry": "node scripts/create-log-entry.js",
+		"backup-documents": "node scripts/create-document-backup.js",
+		"validate-docs": "node scripts/validate-document-structure.js"
+	},
+	"devDependencies": {
+		"node-fetch": "^3.3.2"
+	},
+	"dependencies": {
+		"cors": "^2.8.5"
+	}
+}

@@ -1,0 +1,89 @@
+{
+  "timestamp": "2025-03-16T03:37:25.270Z",
+  "tests": [
+    {
+      "name": "ルートエンドポイント",
+      "status": "passed",
+      "data": {
+        "name": "HARCA Vector Store API",
+        "version": "1.0.0",
+        "endpoints": [
+          {
+            "path": "/api/embed",
+            "method": "POST",
+            "description": "テキストを埋め込みベクトルに変換"
+          },
+          {
+            "path": "/api/search",
+            "method": "POST",
+            "description": "ベクトル検索を実行"
+          },
+          {
+            "path": "/api/cache/stats",
+            "method": "GET",
+            "description": "キャッシュ統計情報を取得"
+          },
+          {
+            "path": "/api/cache/clear",
+            "method": "POST",
+            "description": "キャッシュをクリア"
+          }
+        ]
+      }
+    },
+    {
+      "name": "埋め込みエンドポイント",
+      "status": "failed",
+      "error": "Request failed with status code 500"
+    },
+    {
+      "name": "検索エンドポイント",
+      "status": "failed",
+      "error": "Request failed with status code 500"
+    },
+    {
+      "name": "キャッシュ統計情報エンドポイント",
+      "status": "passed",
+      "stats": {
+        "memory": {
+          "hits": 0,
+          "misses": 0,
+          "sets": 0,
+          "size": 0,
+          "hitRate": "0%"
+        },
+        "redis": {
+          "hits": 0,
+          "misses": 0,
+          "sets": 0,
+          "hitRate": "0%"
+        },
+        "file": {
+          "hits": 0,
+          "misses": 0,
+          "sets": 0,
+          "size": 5,
+          "hitRate": "0%"
+        },
+        "total": {
+          "hits": 0,
+          "misses": 0,
+          "sets": 0,
+          "requests": 0,
+          "size": 5,
+          "hitRate": "0%"
+        }
+      }
+    },
+    {
+      "name": "キャッシュクリアエンドポイント",
+      "status": "passed",
+      "message": "モデル text-embedding-ada-002 のキャッシュをクリアしました"
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 3,
+    "failed": 2
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "tests": [
+    {
+      "name": "キャッシュの初期化",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスが正常に初期化されました",
+      "details": {},
+      "timestamp": "2025-03-16T01:27:20.200Z"
+    },
+    {
+      "name": "キャッシュのクリア",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスがクリアされました",
+      "details": {},
+      "timestamp": "2025-03-16T01:27:20.250Z"
+    },
+    {
+      "name": "キャッシュへのデータ設定",
+      "passed": true,
+      "message": "5個のアイテムをキャッシュ1に設定しました",
+      "details": {},
+      "timestamp": "2025-03-16T01:27:20.263Z"
+    },
+    {
+      "name": "キャッシュ統計情報",
+      "passed": true,
+      "message": "両方のインスタンスから統計情報を取得できました",
+      "details": {
+        "stats1": {},
+        "stats2": {}
+      },
+      "timestamp": "2025-03-16T01:27:20.263Z"
+    },
+    {
+      "name": "キャッシュパフォーマンス分析",
+      "passed": true,
+      "message": "キャッシュパフォーマンス分析を実行できました",
+      "details": {
+        "analysis": {}
+      },
+      "timestamp": "2025-03-16T01:27:20.264Z"
+    },
+    {
+      "name": "キャッシュの終了",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスを正常に終了しました",
+      "details": {},
+      "timestamp": "2025-03-16T01:27:20.264Z"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "passedTests": 6,
+    "failedTests": 0
+  }
+}

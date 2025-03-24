@@ -1,0 +1,1405 @@
+{
+  "timestamp": "2025-03-16T03:08:09.954Z",
+  "config": {
+    "testDataSize": 1000,
+    "embeddingDimension": 384,
+    "iterations": 3,
+    "modelNames": [
+      "test-model-1",
+      "test-model-2",
+      "test-model-3"
+    ],
+    "cacheConfigs": [
+      {
+        "name": "メモリキャッシュのみ",
+        "config": {
+          "enableMemoryCache": true,
+          "enableRedisCache": false,
+          "enableFileCache": false,
+          "cacheDir": "/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/.cache/benchmark/memory"
+        }
+      },
+      {
+        "name": "Redisキャッシュのみ",
+        "config": {
+          "enableMemoryCache": false,
+          "enableRedisCache": true,
+          "enableFileCache": false,
+          "cacheDir": "/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/.cache/benchmark/redis"
+        }
+      },
+      {
+        "name": "ファイルキャッシュのみ",
+        "config": {
+          "enableMemoryCache": false,
+          "enableRedisCache": false,
+          "enableFileCache": true,
+          "cacheDir": "/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/.cache/benchmark/file"
+        }
+      },
+      {
+        "name": "階層型キャッシュ（すべて有効）",
+        "config": {
+          "enableMemoryCache": true,
+          "enableRedisCache": true,
+          "enableFileCache": true,
+          "cacheDir": "/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/.cache/benchmark/hierarchical"
+        }
+      }
+    ]
+  },
+  "benchmarks": [
+    {
+      "name": "メモリキャッシュのみ",
+      "iterations": [
+        {
+          "write": {
+            "totalTime": 2.1794200000000004,
+            "averageTime": 0.0021794200000000005,
+            "operationsPerSecond": 458837.6724082553,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 3.0434519999999803,
+            "averageTime": 0.0030434519999999804,
+            "operationsPerSecond": 328574.2636979346,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": null,
+          "stats": {
+            "memory": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "requests": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:09.976Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:09.976Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 1,
+              "redis": 0,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 0,
+              "total": 0
+            },
+            "efficiency": 0.45,
+            "recommendations": [],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        },
+        {
+          "write": {
+            "totalTime": 1.8325279999999904,
+            "averageTime": 0.0018325279999999904,
+            "operationsPerSecond": 545694.2540577854,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 5.08700700000001,
+            "averageTime": 0.00508700700000001,
+            "operationsPerSecond": 196579.24591021755,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": null,
+          "stats": {
+            "memory": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "requests": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:09.987Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:09.987Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 1,
+              "redis": 0,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 0,
+              "total": 0
+            },
+            "efficiency": 0.45,
+            "recommendations": [],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        },
+        {
+          "write": {
+            "totalTime": 1.318202999999993,
+            "averageTime": 0.0013182029999999928,
+            "operationsPerSecond": 758608.4996013554,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 2.68383999999999,
+            "averageTime": 0.00268383999999999,
+            "operationsPerSecond": 372600.45308215235,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": null,
+          "stats": {
+            "memory": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "requests": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:09.992Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:09.992Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 1,
+              "redis": 0,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 0,
+              "total": 0
+            },
+            "efficiency": 0.45,
+            "recommendations": [],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        }
+      ],
+      "average": {
+        "write": {
+          "averageTime": 0.0017767169999999945,
+          "operationsPerSecond": 587713.4753557987
+        },
+        "read": {
+          "averageTime": 0.0036047663333333264,
+          "operationsPerSecond": 299251.3208967682,
+          "hitRate": 1
+        },
+        "sync": null
+      }
+    },
+    {
+      "name": "Redisキャッシュのみ",
+      "iterations": [
+        {
+          "write": {
+            "totalTime": 205.5830799999998,
+            "averageTime": 0.2055830799999998,
+            "operationsPerSecond": 4864.213533526207,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 79.60944000000003,
+            "averageTime": 0.07960944000000003,
+            "operationsPerSecond": 12561.324385650742,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": {
+            "averageDelay": 101.12207074999999,
+            "syncRate": 1,
+            "samples": 20,
+            "syncedSamples": 20
+          },
+          "stats": {
+            "memory": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "redis": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "hitRate": "100.00%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "requests": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:12.308Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:12.308Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 0,
+              "redis": 1,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 0,
+              "total": 0
+            },
+            "efficiency": 0.375,
+            "recommendations": [
+              "Redisキャッシュのヒット率が高いです。TTLの延長を検討してください。"
+            ],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        },
+        {
+          "write": {
+            "totalTime": 133.77004999999988,
+            "averageTime": 0.1337700499999999,
+            "operationsPerSecond": 7475.514885432134,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 74.05529999999997,
+            "averageTime": 0.07405529999999998,
+            "operationsPerSecond": 13503.422442418036,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": {
+            "averageDelay": 101.31402719999998,
+            "syncRate": 1,
+            "samples": 20,
+            "syncedSamples": 20
+          },
+          "stats": {
+            "memory": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "redis": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "hitRate": "100.00%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "requests": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:14.551Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:14.551Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 0,
+              "redis": 1,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 0,
+              "total": 0
+            },
+            "efficiency": 0.375,
+            "recommendations": [
+              "Redisキャッシュのヒット率が高いです。TTLの延長を検討してください。"
+            ],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        },
+        {
+          "write": {
+            "totalTime": 126.14115000000004,
+            "averageTime": 0.12614115000000004,
+            "operationsPerSecond": 7927.627106618258,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 74.24442599999992,
+            "averageTime": 0.07424442599999992,
+            "operationsPerSecond": 13469.024597213549,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": {
+            "averageDelay": 101.2403686,
+            "syncRate": 1,
+            "samples": 20,
+            "syncedSamples": 20
+          },
+          "stats": {
+            "memory": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "redis": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "hitRate": "100.00%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "requests": 1000,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:16.784Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:16.784Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 0,
+              "redis": 1,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 0,
+              "total": 0
+            },
+            "efficiency": 0.375,
+            "recommendations": [
+              "Redisキャッシュのヒット率が高いです。TTLの延長を検討してください。"
+            ],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        }
+      ],
+      "average": {
+        "write": {
+          "averageTime": 0.1551647599999999,
+          "operationsPerSecond": 6755.785175192199
+        },
+        "read": {
+          "averageTime": 0.07596972199999998,
+          "operationsPerSecond": 13177.92380842744,
+          "hitRate": 1
+        },
+        "sync": {
+          "averageDelay": 101.22548884999999,
+          "syncRate": 1
+        }
+      }
+    },
+    {
+      "name": "ファイルキャッシュのみ",
+      "iterations": [
+        {
+          "write": {
+            "totalTime": 221.37548899999985,
+            "averageTime": 0.22137548899999984,
+            "operationsPerSecond": 4517.211930359646,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 269.24850399999974,
+            "averageTime": 0.2692485039999997,
+            "operationsPerSecond": 3714.041062972818,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": null,
+          "stats": {
+            "memory": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "size": 1000,
+              "hitRate": "100.00%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "requests": 1000,
+              "size": 1000,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:17.278Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:17.278Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 0,
+              "redis": 0,
+              "file": 1
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 1000,
+              "total": 1000
+            },
+            "efficiency": 0.30000000000000004,
+            "recommendations": [
+              "ファイルキャッシュへのアクセスが多いです。メモリキャッシュまたはRedisキャッシュの拡大を検討してください。"
+            ],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        },
+        {
+          "write": {
+            "totalTime": 251.3973089999999,
+            "averageTime": 0.2513973089999999,
+            "operationsPerSecond": 3977.767319697127,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 274.11733599999997,
+            "averageTime": 0.274117336,
+            "operationsPerSecond": 3648.0728092294025,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": null,
+          "stats": {
+            "memory": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "size": 1000,
+              "hitRate": "100.00%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "requests": 1000,
+              "size": 1000,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:17.864Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:17.864Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 0,
+              "redis": 0,
+              "file": 1
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 1000,
+              "total": 1000
+            },
+            "efficiency": 0.30000000000000004,
+            "recommendations": [
+              "ファイルキャッシュへのアクセスが多いです。メモリキャッシュまたはRedisキャッシュの拡大を検討してください。"
+            ],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        },
+        {
+          "write": {
+            "totalTime": 235.74275100000003,
+            "averageTime": 0.23574275100000003,
+            "operationsPerSecond": 4241.911981420798,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 185.34771199999992,
+            "averageTime": 0.18534771199999991,
+            "operationsPerSecond": 5395.264873838855,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": null,
+          "stats": {
+            "memory": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "size": 0,
+              "hitRate": "0%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 0,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "size": 1000,
+              "hitRate": "100.00%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1000,
+              "requests": 1000,
+              "size": 1000,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:18.346Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:18.346Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 0,
+              "redis": 0,
+              "file": 1
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 1000,
+              "total": 1000
+            },
+            "efficiency": 0.30000000000000004,
+            "recommendations": [
+              "ファイルキャッシュへのアクセスが多いです。メモリキャッシュまたはRedisキャッシュの拡大を検討してください。"
+            ],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        }
+      ],
+      "average": {
+        "write": {
+          "averageTime": 0.23617184966666657,
+          "operationsPerSecond": 4245.630410492523
+        },
+        "read": {
+          "averageTime": 0.24290451733333318,
+          "operationsPerSecond": 4252.459582013692,
+          "hitRate": 1
+        },
+        "sync": null
+      }
+    },
+    {
+      "name": "階層型キャッシュ（すべて有効）",
+      "iterations": [
+        {
+          "write": {
+            "totalTime": 271.8053060000005,
+            "averageTime": 0.27180530600000047,
+            "operationsPerSecond": 3679.104042214681,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 1.538991999999995,
+            "averageTime": 0.001538991999999995,
+            "operationsPerSecond": 649775.9572499422,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": {
+            "averageDelay": 101.27348935,
+            "syncRate": 1,
+            "samples": 20,
+            "syncedSamples": 20
+          },
+          "stats": {
+            "memory": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 1020,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 1020,
+              "size": 1020,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 3060,
+              "requests": 1000,
+              "size": 1020,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:20.657Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:20.657Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 1,
+              "redis": 0,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 1020,
+              "total": 1020
+            },
+            "efficiency": 0.45,
+            "recommendations": [],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        },
+        {
+          "write": {
+            "totalTime": 296.39904099999984,
+            "averageTime": 0.29639904099999986,
+            "operationsPerSecond": 3373.8300792950286,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 1.5077899999999953,
+            "averageTime": 0.0015077899999999954,
+            "operationsPerSecond": 663222.3320223659,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": {
+            "averageDelay": 101.32583755000002,
+            "syncRate": 1,
+            "samples": 20,
+            "syncedSamples": 20
+          },
+          "stats": {
+            "memory": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 1020,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 1020,
+              "size": 1020,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 3060,
+              "requests": 1000,
+              "size": 1020,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:23.059Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:23.059Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 1,
+              "redis": 0,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 1020,
+              "total": 1020
+            },
+            "efficiency": 0.45,
+            "recommendations": [],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        },
+        {
+          "write": {
+            "totalTime": 325.14280400000035,
+            "averageTime": 0.32514280400000034,
+            "operationsPerSecond": 3075.571680190096,
+            "operations": 1000
+          },
+          "read": {
+            "totalTime": 1.4437449999999936,
+            "averageTime": 0.0014437449999999937,
+            "operationsPerSecond": 692643.0914046486,
+            "operations": 1000,
+            "hits": 1000,
+            "hitRate": 1
+          },
+          "sync": {
+            "averageDelay": 101.2920168,
+            "syncRate": 1,
+            "samples": 20,
+            "syncedSamples": 20
+          },
+          "stats": {
+            "memory": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 1020,
+              "size": 0,
+              "hitRate": "100.00%"
+            },
+            "redis": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 1020,
+              "hitRate": "0%"
+            },
+            "file": {
+              "hits": 0,
+              "misses": 0,
+              "sets": 1020,
+              "size": 1020,
+              "hitRate": "0%"
+            },
+            "total": {
+              "hits": 1000,
+              "misses": 0,
+              "sets": 3060,
+              "requests": 1000,
+              "size": 1020,
+              "hitRate": "100.00%"
+            },
+            "detailed": {
+              "hourlyHitRate": [
+                {
+                  "hour": 12,
+                  "requests": 1000,
+                  "hits": 1000,
+                  "misses": 0,
+                  "hitRate": "100.00%",
+                  "pattern": "high_hit_rate",
+                  "volume": "high"
+                }
+              ],
+              "modelStats": {
+                "test-model-1": {
+                  "hits": 334,
+                  "misses": 0,
+                  "requests": 334
+                },
+                "test-model-3": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                },
+                "test-model-2": {
+                  "hits": 333,
+                  "misses": 0,
+                  "requests": 333
+                }
+              },
+              "lastUpdated": "2025-03-16T03:08:25.488Z"
+            }
+          },
+          "analysis": {
+            "timestamp": "2025-03-16T03:08:25.488Z",
+            "hitRate": 1,
+            "requestCount": 1000,
+            "hitCount": 1000,
+            "missCount": 0,
+            "cacheDistribution": {
+              "memory": 1,
+              "redis": 0,
+              "file": 0
+            },
+            "cacheSize": {
+              "memory": 0,
+              "file": 1020,
+              "total": 1020
+            },
+            "efficiency": 0.45,
+            "recommendations": [],
+            "compression": {
+              "enabled": false,
+              "ratio": 1,
+              "level": 6,
+              "threshold": 1024
+            }
+          }
+        }
+      ],
+      "average": {
+        "write": {
+          "averageTime": 0.29778238366666687,
+          "operationsPerSecond": 3376.168600566602
+        },
+        "read": {
+          "averageTime": 0.001496842333333328,
+          "operationsPerSecond": 668547.126892319,
+          "hitRate": 1
+        },
+        "sync": {
+          "averageDelay": 101.29711456666666,
+          "syncRate": 1
+        }
+      }
+    }
+  ]
+}

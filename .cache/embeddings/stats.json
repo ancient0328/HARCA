@@ -1,0 +1,10 @@
+{
+  "hits": 0,
+  "misses": 1,
+  "size": 0,
+  "adaptiveTtlStats": {
+    "extended": 0,
+    "reduced": 0,
+    "unchanged": 0
+  }
+}

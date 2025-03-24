@@ -1,0 +1,72 @@
+{
+  "hits": 17,
+  "misses": 146,
+  "size": 1492,
+  "adaptiveTtlStats": {
+    "extended": 0,
+    "reduced": 1492,
+    "unchanged": 17
+  },
+  "detailedStats": {
+    "hourlyHits": [
+      0,
+      614,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "hourlyMisses": [
+      0,
+      146,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "modelStats": {
+      "test-model": {
+        "hits": 17,
+        "misses": 146
+      }
+    },
+    "sizeHistory": [],
+    "lastUpdated": "2025-03-15T16:02:27.475Z"
+  }
+}

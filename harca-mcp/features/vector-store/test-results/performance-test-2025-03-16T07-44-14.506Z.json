@@ -1,0 +1,411 @@
+{
+  "timestamp": "2025-03-16T07-44-14.506Z",
+  "system": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpus": 8,
+    "totalMemory": 16384,
+    "freeMemory": 75,
+    "nodeVersion": "v22.14.0"
+  },
+  "config": {
+    "iterations": 5,
+    "warmupIterations": 2,
+    "embeddingTestSizes": [
+      {
+        "name": "短いテキスト",
+        "length": 100
+      },
+      {
+        "name": "中程度のテキスト",
+        "length": 1000
+      },
+      {
+        "name": "長いテキスト",
+        "length": 5000
+      },
+      {
+        "name": "非常に長いテキスト",
+        "length": 10000
+      }
+    ],
+    "searchTestSizes": [
+      {
+        "name": "少数ドキュメント",
+        "count": 10,
+        "textLength": 200
+      },
+      {
+        "name": "中程度ドキュメント",
+        "count": 50,
+        "textLength": 100
+      },
+      {
+        "name": "多数ドキュメント",
+        "count": 200,
+        "textLength": 50
+      }
+    ],
+    "concurrencyLevels": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "models": [
+      "text-embedding-ada-002"
+    ]
+  },
+  "results": {
+    "embedding": [
+      {
+        "model": "text-embedding-ada-002",
+        "textSize": {
+          "name": "短いテキスト",
+          "length": 100
+        },
+        "times": [
+          3.610208,
+          2.9564589999999953,
+          2.991874999999993,
+          2.8478749999999877,
+          2.8107909999999947
+        ],
+        "averageTime": 3.043441599999994,
+        "minTime": 2.8107909999999947,
+        "maxTime": 3.610208,
+        "stdDev": 0.2911432073132426,
+        "dimensions": 1536,
+        "memoryBefore": {
+          "rss": 57,
+          "heapTotal": 13,
+          "heapUsed": 8,
+          "external": 3
+        },
+        "memoryAfter": {
+          "rss": 57,
+          "heapTotal": 13,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryDelta": {
+          "rss": 0,
+          "heapUsed": 2
+        }
+      },
+      {
+        "model": "text-embedding-ada-002",
+        "textSize": {
+          "name": "中程度のテキスト",
+          "length": 1000
+        },
+        "times": [
+          3.3198750000000103,
+          2.6136669999999924,
+          2.785459000000003,
+          2.6033749999999998,
+          1.946458000000007
+        ],
+        "averageTime": 2.6537668000000023,
+        "minTime": 1.946458000000007,
+        "maxTime": 3.3198750000000103,
+        "stdDev": 0.4394259973357984,
+        "dimensions": 1536,
+        "memoryBefore": {
+          "rss": 57,
+          "heapTotal": 13,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryAfter": {
+          "rss": 58,
+          "heapTotal": 14,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryDelta": {
+          "rss": 1,
+          "heapUsed": 0
+        }
+      },
+      {
+        "model": "text-embedding-ada-002",
+        "textSize": {
+          "name": "長いテキスト",
+          "length": 5000
+        },
+        "times": [
+          2.184375000000017,
+          3.0991249999999866,
+          2.2041250000000048,
+          2.3903339999999957,
+          2.3229169999999897
+        ],
+        "averageTime": 2.4401751999999988,
+        "minTime": 2.184375000000017,
+        "maxTime": 3.0991249999999866,
+        "stdDev": 0.3381129719028166,
+        "dimensions": 1536,
+        "memoryBefore": {
+          "rss": 58,
+          "heapTotal": 14,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryAfter": {
+          "rss": 59,
+          "heapTotal": 18,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryDelta": {
+          "rss": 1,
+          "heapUsed": 0
+        }
+      },
+      {
+        "model": "text-embedding-ada-002",
+        "textSize": {
+          "name": "非常に長いテキスト",
+          "length": 10000
+        },
+        "times": [
+          3.7009999999999934,
+          2.06887500000002,
+          3.534707999999995,
+          3.2123339999999985,
+          3.420749999999998
+        ],
+        "averageTime": 3.187533400000001,
+        "minTime": 2.06887500000002,
+        "maxTime": 3.7009999999999934,
+        "stdDev": 0.5814773977322153,
+        "dimensions": 1536,
+        "memoryBefore": {
+          "rss": 59,
+          "heapTotal": 18,
+          "heapUsed": 11,
+          "external": 4
+        },
+        "memoryAfter": {
+          "rss": 60,
+          "heapTotal": 18,
+          "heapUsed": 12,
+          "external": 5
+        },
+        "memoryDelta": {
+          "rss": 1,
+          "heapUsed": 1
+        }
+      }
+    ],
+    "search": [
+      {
+        "model": "text-embedding-ada-002",
+        "documentSize": {
+          "name": "少数ドキュメント",
+          "count": 10,
+          "textLength": 200
+        },
+        "times": [
+          15.468625000000003,
+          20.319916999999975,
+          12.188958999999983,
+          11.543583000000012,
+          9.623749999999973
+        ],
+        "averageTime": 13.82896679999999,
+        "minTime": 9.623749999999973,
+        "maxTime": 20.319916999999975,
+        "stdDev": 3.7527953992743255,
+        "resultCount": 5,
+        "memoryBefore": {
+          "rss": 60,
+          "heapTotal": 18,
+          "heapUsed": 12,
+          "external": 5
+        },
+        "memoryAfter": {
+          "rss": 61,
+          "heapTotal": 18,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryDelta": {
+          "rss": 1,
+          "heapUsed": -2
+        }
+      },
+      {
+        "model": "text-embedding-ada-002",
+        "documentSize": {
+          "name": "中程度ドキュメント",
+          "count": 50,
+          "textLength": 100
+        },
+        "times": [
+          59.68537500000002,
+          45.753499999999974,
+          40.057541000000015,
+          39.949208,
+          41.74658299999999
+        ],
+        "averageTime": 45.4384414,
+        "minTime": 39.949208,
+        "maxTime": 59.68537500000002,
+        "stdDev": 7.426842798986522,
+        "resultCount": 5,
+        "memoryBefore": {
+          "rss": 61,
+          "heapTotal": 18,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryAfter": {
+          "rss": 61,
+          "heapTotal": 18,
+          "heapUsed": 11,
+          "external": 4
+        },
+        "memoryDelta": {
+          "rss": 0,
+          "heapUsed": 1
+        }
+      },
+      {
+        "model": "text-embedding-ada-002",
+        "documentSize": {
+          "name": "多数ドキュメント",
+          "count": 200,
+          "textLength": 50
+        },
+        "times": [
+          176.71279100000004,
+          148.57741699999997,
+          168.36291699999992,
+          181.46395800000005,
+          201.561958
+        ],
+        "averageTime": 175.3358082,
+        "minTime": 148.57741699999997,
+        "maxTime": 201.561958,
+        "stdDev": 17.273644353372884,
+        "resultCount": 5,
+        "memoryBefore": {
+          "rss": 62,
+          "heapTotal": 18,
+          "heapUsed": 12,
+          "external": 4
+        },
+        "memoryAfter": {
+          "rss": 63,
+          "heapTotal": 18,
+          "heapUsed": 12,
+          "external": 4
+        },
+        "memoryDelta": {
+          "rss": 1,
+          "heapUsed": 0
+        }
+      }
+    ],
+    "concurrent": [
+      {
+        "model": "text-embedding-ada-002",
+        "concurrency": 1,
+        "totalTime": 2.0591249999999945,
+        "averageTimePerRequest": 2.0591249999999945,
+        "requestsPerSecond": 485.64317367814124,
+        "successRate": 1,
+        "memoryBefore": {
+          "rss": 63,
+          "heapTotal": 18,
+          "heapUsed": 12,
+          "external": 4
+        },
+        "memoryAfter": {
+          "rss": 63,
+          "heapTotal": 19,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryDelta": {
+          "rss": 0,
+          "heapUsed": -2
+        }
+      },
+      {
+        "model": "text-embedding-ada-002",
+        "concurrency": 5,
+        "totalTime": 10.625084000000015,
+        "averageTimePerRequest": 2.125016800000003,
+        "requestsPerSecond": 470.584514908305,
+        "successRate": 1,
+        "memoryBefore": {
+          "rss": 63,
+          "heapTotal": 19,
+          "heapUsed": 11,
+          "external": 4
+        },
+        "memoryAfter": {
+          "rss": 64,
+          "heapTotal": 19,
+          "heapUsed": 11,
+          "external": 5
+        },
+        "memoryDelta": {
+          "rss": 1,
+          "heapUsed": 0
+        }
+      },
+      {
+        "model": "text-embedding-ada-002",
+        "concurrency": 10,
+        "totalTime": 19.085583999999926,
+        "averageTimePerRequest": 1.9085583999999927,
+        "requestsPerSecond": 523.9556725117784,
+        "successRate": 1,
+        "memoryBefore": {
+          "rss": 64,
+          "heapTotal": 19,
+          "heapUsed": 11,
+          "external": 5
+        },
+        "memoryAfter": {
+          "rss": 65,
+          "heapTotal": 19,
+          "heapUsed": 13,
+          "external": 5
+        },
+        "memoryDelta": {
+          "rss": 1,
+          "heapUsed": 2
+        }
+      },
+      {
+        "model": "text-embedding-ada-002",
+        "concurrency": 20,
+        "totalTime": 30.713915999999926,
+        "averageTimePerRequest": 1.5356957999999963,
+        "requestsPerSecond": 651.1706289748284,
+        "successRate": 1,
+        "memoryBefore": {
+          "rss": 65,
+          "heapTotal": 19,
+          "heapUsed": 13,
+          "external": 5
+        },
+        "memoryAfter": {
+          "rss": 68,
+          "heapTotal": 19,
+          "heapUsed": 10,
+          "external": 4
+        },
+        "memoryDelta": {
+          "rss": 3,
+          "heapUsed": -3
+        }
+      }
+    ]
+  }
+}

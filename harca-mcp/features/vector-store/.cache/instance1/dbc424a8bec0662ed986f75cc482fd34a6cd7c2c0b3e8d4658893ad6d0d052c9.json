@@ -1,0 +1,13 @@
+{
+  "text": "テストテキスト2",
+  "modelName": "test-model-1",
+  "embedding": [
+    0.2,
+    0.3,
+    0.4
+  ],
+  "createdAt": "2025-03-16T03:08:02.864Z",
+  "lastAccessed": "2025-03-16T03:08:02.864Z",
+  "expiresAt": "2025-03-16T03:09:29.264Z",
+  "accessCount": 1
+}

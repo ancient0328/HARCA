@@ -1,0 +1,288 @@
+/* dashboard.css - HARCA管理ダッシュボードスタイル */
+
+/* 全体のスタイル */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* サイドバー */
+#sidebar {
+  min-height: 100vh;
+  background-color: #212529;
+  padding-top: 20px;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-header {
+  padding: 0 15px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h3 {
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin: 2px 10px;
+  transition: all 0.3s;
+}
+
+.nav-link:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+  color: #fff;
+  background-color: #0d6efd;
+}
+
+.nav-link i {
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 15px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+/* カード */
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  border: none;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #495057;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* ステータスインジケーター */
+.status-indicator {
+  font-weight: 500;
+}
+
+.status-indicator i {
+  margin-right: 5px;
+}
+
+/* システムログ */
+.system-log-container {
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.system-log {
+  padding: 10px;
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  color: #495057;
+  white-space: pre-wrap;
+}
+
+/* コードエディタ */
+.code-editor {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  min-height: 200px;
+  resize: vertical;
+}
+
+/* コンテンツページ */
+.content-page {
+  display: none;
+}
+
+.content-page.active {
+  display: block;
+}
+
+/* プログレスバー */
+.progress {
+  height: 10px;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* テーブル */
+.table-responsive {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.table th {
+  font-weight: 600;
+  color: #495057;
+}
+
+.table-sm td, .table-sm th {
+  padding: 0.5rem;
+}
+
+/* 分析結果タブ */
+.nav-tabs .nav-link {
+  color: #495057;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 15px;
+  margin-right: 5px;
+  font-weight: 500;
+}
+
+.nav-tabs .nav-link.active {
+  color: #0d6efd;
+  background-color: transparent;
+  border-bottom: 2px solid #0d6efd;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: transparent;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.tab-content {
+  padding: 15px 0;
+}
+
+/* アコーディオン */
+.accordion-button:not(.collapsed) {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(13, 110, 253, 0.25);
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 767.98px) {
+  #sidebar {
+    min-height: auto;
+    position: static;
+  }
+  
+  .sidebar-footer {
+    position: static;
+    margin-top: 20px;
+  }
+}
+
+/* 分析結果カード */
+.analysis-card {
+  border-left: 4px solid #0d6efd;
+  background-color: rgba(13, 110, 253, 0.05);
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.analysis-card.good {
+  border-left-color: #198754;
+  background-color: rgba(25, 135, 84, 0.05);
+}
+
+.analysis-card.warning {
+  border-left-color: #ffc107;
+  background-color: rgba(255, 193, 7, 0.05);
+}
+
+.analysis-card.bad {
+  border-left-color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.05);
+}
+
+.analysis-card h6 {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.analysis-card ul {
+  margin-bottom: 0;
+  padding-left: 20px;
+}
+
+/* 検索結果 */
+.search-result-item {
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.2s;
+}
+
+.search-result-item:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-score {
+  font-weight: 600;
+  color: #0d6efd;
+}
+
+.search-result-content {
+  margin-top: 5px;
+  font-size: 0.9rem;
+}
+
+/* 分析結果コンテナ */
+#analysis-results-container {
+  display: none;
+}
+
+/* フォーム要素 */
+.form-control:focus, .form-select:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* ボタン */
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* ディスプレイテキスト */
+.display-4 {
+  font-weight: 300;
+  line-height: 1.2;
+}

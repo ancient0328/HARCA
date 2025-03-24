@@ -1,0 +1,109 @@
+2025-03-19 20:47:01 [INFO] document-rag: DocumentProcessor initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:47:01 [INFO] document-rag: MockVectorStore initialized with namespace: document_vectors
+2025-03-19 20:47:01 [INFO] document-rag: DocumentVectorStore initialized with namespace: document_vectors
+2025-03-19 20:47:01 [INFO] document-rag: EmbeddingService initialized with model: text-embedding-3-small
+2025-03-19 20:47:01 [INFO] document-rag: MockCacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:47:01 [INFO] document-rag: CacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:47:01 [INFO] document-rag: DocumentRAG initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:47:01 [INFO] document-rag: Document updates scheduled with cron: 0 3 * * *
+2025-03-19 20:47:01 [INFO] document-rag: Starting document processing and storage
+2025-03-19 20:47:01 [INFO] document-rag: Processing directory: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:47:01 [INFO] document-rag: Found 1 document files
+2025-03-19 20:47:01 [INFO] document-rag: Processing batch 1/1
+2025-03-19 20:47:01 [INFO] document-rag: Processed 1 documents successfully
+2025-03-19 20:47:01 [INFO] document-rag: Processed 1 documents
+2025-03-19 20:47:01 [INFO] document-rag: Initializing mock cache service...
+2025-03-19 20:47:01 [INFO] document-rag: Mock cache service initialized successfully
+2025-03-19 20:47:01 [INFO] document-rag: OpenAI API client initialized
+2025-03-19 20:47:04 [INFO] document-rag: Deleting documents with filter: {"documentPath":{"$regex":"/Users/ancient0328/Development/MCPserver/HARCA/docs"}}
+2025-03-19 20:47:04 [INFO] document-rag: Initializing mock vector store...
+2025-03-19 20:47:04 [INFO] document-rag: Mock vector store initialized successfully
+2025-03-19 20:47:04 [INFO] document-rag: Deleting documents with filter: {"documentPath":{"$regex":"/Users/ancient0328/Development/MCPserver/HARCA/docs"}}
+2025-03-19 20:47:04 [INFO] document-rag: Deleted 0 documents
+2025-03-19 20:47:04 [INFO] document-rag: Storing 2 document chunks to vector store
+2025-03-19 20:47:04 [INFO] document-rag: Storing 2 document chunks to mock vector store...
+2025-03-19 20:47:04 [INFO] document-rag: Successfully stored 2 document chunks
+2025-03-19 20:47:04 [INFO] document-rag: Successfully stored 2 document chunks from 1 documents in vector store
+2025-03-19 20:47:04 [INFO] document-rag: Shutting down DocumentRAG
+2025-03-19 20:47:04 [INFO] document-rag: DocumentRAG shutdown complete
+2025-03-19 20:50:34 [INFO] document-rag: DocumentProcessor initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:50:34 [INFO] document-rag: MockVectorStore initialized with namespace: document_vectors
+2025-03-19 20:50:34 [INFO] document-rag: DocumentVectorStore initialized with namespace: document_vectors
+2025-03-19 20:50:34 [INFO] document-rag: EmbeddingService initialized with model: text-embedding-3-small
+2025-03-19 20:50:34 [INFO] document-rag: MockCacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:50:34 [INFO] document-rag: CacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:50:34 [INFO] document-rag: DocumentRAG initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:50:34 [INFO] document-rag: Document updates scheduled with cron: 0 3 * * *
+2025-03-19 20:50:34 [INFO] document-rag: Searching for: "RAGの重要性"
+2025-03-19 20:50:34 [INFO] document-rag: OpenAI API client initialized
+2025-03-19 20:50:35 [INFO] document-rag: Searching vector store with options: {"topK":3}
+2025-03-19 20:50:35 [INFO] document-rag: Initializing mock vector store...
+2025-03-19 20:50:35 [INFO] document-rag: Loaded 2 documents from cache
+2025-03-19 20:50:35 [INFO] document-rag: Mock vector store initialized successfully
+2025-03-19 20:50:35 [INFO] document-rag: Found 2 results for query: "RAGの重要性"
+2025-03-19 20:50:35 [INFO] document-rag: Shutting down DocumentRAG
+2025-03-19 20:50:35 [INFO] document-rag: DocumentRAG shutdown complete
+2025-03-19 20:52:00 [INFO] document-rag: DocumentProcessor initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:52:00 [INFO] document-rag: MockVectorStore initialized with namespace: document_vectors
+2025-03-19 20:52:00 [INFO] document-rag: DocumentVectorStore initialized with namespace: document_vectors
+2025-03-19 20:52:00 [INFO] document-rag: EmbeddingService initialized with model: text-embedding-3-small
+2025-03-19 20:52:00 [INFO] document-rag: MockCacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:52:00 [INFO] document-rag: CacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:52:00 [INFO] document-rag: DocumentRAG initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:52:00 [INFO] document-rag: Document updates scheduled with cron: 0 3 * * *
+2025-03-19 20:52:00 [INFO] document-rag: Starting document processing and storage
+2025-03-19 20:52:00 [INFO] document-rag: Processing directory: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:52:00 [INFO] document-rag: Found 3 document files
+2025-03-19 20:52:00 [INFO] document-rag: Processing batch 1/1
+2025-03-19 20:52:00 [INFO] document-rag: Processed 3 documents successfully
+2025-03-19 20:52:00 [INFO] document-rag: Processed 3 documents
+2025-03-19 20:52:00 [INFO] document-rag: Initializing mock cache service...
+2025-03-19 20:52:00 [INFO] document-rag: Loaded 2 valid cache entries
+2025-03-19 20:52:00 [INFO] document-rag: Mock cache service initialized successfully
+2025-03-19 20:52:00 [INFO] document-rag: OpenAI API client initialized
+2025-03-19 20:52:07 [INFO] document-rag: Deleting documents with filter: {"documentPath":{"$regex":"/Users/ancient0328/Development/MCPserver/HARCA/docs"}}
+2025-03-19 20:52:07 [INFO] document-rag: Initializing mock vector store...
+2025-03-19 20:52:07 [INFO] document-rag: Loaded 2 documents from cache
+2025-03-19 20:52:07 [INFO] document-rag: Mock vector store initialized successfully
+2025-03-19 20:52:07 [INFO] document-rag: Deleting documents with filter: {"documentPath":{"$regex":"/Users/ancient0328/Development/MCPserver/HARCA/docs"}}
+2025-03-19 20:52:07 [INFO] document-rag: Deleted 2 documents
+2025-03-19 20:52:07 [INFO] document-rag: Storing 7 document chunks to vector store
+2025-03-19 20:52:07 [INFO] document-rag: Storing 7 document chunks to mock vector store...
+2025-03-19 20:52:07 [INFO] document-rag: Successfully stored 7 document chunks
+2025-03-19 20:52:07 [INFO] document-rag: Successfully stored 7 document chunks from 3 documents in vector store
+2025-03-19 20:52:07 [INFO] document-rag: Shutting down DocumentRAG
+2025-03-19 20:52:07 [INFO] document-rag: DocumentRAG shutdown complete
+2025-03-19 20:53:59 [INFO] document-rag: DocumentProcessor initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:53:59 [INFO] document-rag: MockVectorStore initialized with namespace: document_vectors
+2025-03-19 20:53:59 [INFO] document-rag: DocumentVectorStore initialized with namespace: document_vectors
+2025-03-19 20:53:59 [INFO] document-rag: EmbeddingService initialized with model: text-embedding-3-small
+2025-03-19 20:53:59 [INFO] document-rag: MockCacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:53:59 [INFO] document-rag: CacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:53:59 [INFO] document-rag: DocumentRAG initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:53:59 [INFO] document-rag: Document updates scheduled with cron: 0 3 * * *
+2025-03-19 20:53:59 [INFO] document-rag: Searching for: "ベクトルストアのパフォーマンス最適化"
+2025-03-19 20:53:59 [INFO] document-rag: OpenAI API client initialized
+2025-03-19 20:54:00 [INFO] document-rag: Searching vector store with options: {"topK":3}
+2025-03-19 20:54:00 [INFO] document-rag: Initializing mock vector store...
+2025-03-19 20:54:00 [INFO] document-rag: Loaded 7 documents from cache
+2025-03-19 20:54:00 [INFO] document-rag: Mock vector store initialized successfully
+2025-03-19 20:54:00 [INFO] document-rag: Found 3 results for query: "ベクトルストアのパフォーマンス最適化"
+2025-03-19 20:54:00 [INFO] document-rag: Shutting down DocumentRAG
+2025-03-19 20:54:00 [INFO] document-rag: DocumentRAG shutdown complete
+2025-03-19 20:54:54 [INFO] document-rag: DocumentProcessor initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:54:54 [INFO] document-rag: MockVectorStore initialized with namespace: document_vectors
+2025-03-19 20:54:54 [INFO] document-rag: DocumentVectorStore initialized with namespace: document_vectors
+2025-03-19 20:54:54 [INFO] document-rag: EmbeddingService initialized with model: text-embedding-3-small
+2025-03-19 20:54:54 [INFO] document-rag: MockCacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:54:54 [INFO] document-rag: CacheService initialized with prefix: harca:docs:embedding:
+2025-03-19 20:54:54 [INFO] document-rag: DocumentRAG initialized with sourceDir: /Users/ancient0328/Development/MCPserver/HARCA/docs
+2025-03-19 20:54:54 [INFO] document-rag: Document updates scheduled with cron: 0 3 * * *
+2025-03-19 20:54:54 [INFO] document-rag: Searching for: "HARCAシステムのアーキテクチャと構成要素"
+2025-03-19 20:54:54 [INFO] document-rag: OpenAI API client initialized
+2025-03-19 20:54:55 [INFO] document-rag: Searching vector store with options: {"topK":3}
+2025-03-19 20:54:55 [INFO] document-rag: Initializing mock vector store...
+2025-03-19 20:54:55 [INFO] document-rag: Loaded 7 documents from cache
+2025-03-19 20:54:55 [INFO] document-rag: Mock vector store initialized successfully
+2025-03-19 20:54:55 [INFO] document-rag: Found 3 results for query: "HARCAシステムのアーキテクチャと構成要素"
+2025-03-19 20:54:55 [INFO] document-rag: Shutting down DocumentRAG
+2025-03-19 20:54:55 [INFO] document-rag: DocumentRAG shutdown complete

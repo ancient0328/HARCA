@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  sequential-thinking:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: harca-sequential-thinking
+    ports:
+      - "3740:3740"
+    environment:
+      - NODE_ENV=production
+      - DEBUG=false
+      - PORT=3740
+    restart: unless-stopped
+    networks:
+      - harca-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3740"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  harca-network:
+    name: harca-network
+    external: true

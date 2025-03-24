@@ -1,0 +1,27 @@
+{
+  "startTime": "2025-03-16T08:21:24.256Z",
+  "tests": [
+    {
+      "name": "ベクトルストアAPIの基本機能",
+      "status": "passed"
+    },
+    {
+      "name": "キャッシュ機能",
+      "status": "passed"
+    },
+    {
+      "name": "エラーハンドリング機能",
+      "status": "passed"
+    },
+    {
+      "name": "コンポーネント連携",
+      "status": "passed"
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "endTime": "2025-03-16T08:21:24.262Z"
+}

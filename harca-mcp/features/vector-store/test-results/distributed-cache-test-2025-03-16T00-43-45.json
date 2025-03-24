@@ -1,0 +1,80 @@
+{
+  "tests": [
+    {
+      "name": "キャッシュの初期化",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスが正常に初期化されました",
+      "details": {},
+      "timestamp": "2025-03-16T00:43:43.459Z"
+    },
+    {
+      "name": "キャッシュのクリア",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスがクリアされました",
+      "details": {},
+      "timestamp": "2025-03-16T00:43:43.471Z"
+    },
+    {
+      "name": "キャッシュへのデータ設定",
+      "passed": true,
+      "message": "5個のアイテムをキャッシュ1に設定しました",
+      "details": {},
+      "timestamp": "2025-03-16T00:43:43.475Z"
+    },
+    {
+      "name": "インスタンス間のキャッシュ同期",
+      "passed": true,
+      "message": "5/5のアイテムがインスタンス2から取得できました",
+      "details": {
+        "successCount": 5,
+        "totalItems": 5
+      },
+      "timestamp": "2025-03-16T00:43:44.480Z"
+    },
+    {
+      "name": "モデル別キャッシュクリアの同期",
+      "passed": false,
+      "message": "クリアされたモデルのデータは取得できず、他のモデルのデータは取得できました",
+      "details": {
+        "model1Items": 2,
+        "model1MissingCount": 0,
+        "otherModelsItems": 3,
+        "otherModelsFoundCount": 3
+      },
+      "timestamp": "2025-03-16T00:43:45.483Z"
+    },
+    {
+      "name": "キャッシュ統計情報",
+      "passed": true,
+      "message": "両方のインスタンスから統計情報を取得できました",
+      "details": {
+        "stats1Summary": {
+          "hits": 0,
+          "misses": 0,
+          "hitRate": "0%"
+        },
+        "stats2Summary": {
+          "hits": 10,
+          "misses": 0,
+          "hitRate": "100.00%"
+        }
+      },
+      "timestamp": "2025-03-16T00:43:45.484Z"
+    },
+    {
+      "name": "テスト実行",
+      "passed": false,
+      "message": "テスト実行中にエラーが発生しました",
+      "details": {
+        "error": "Cannot read properties of undefined (reading 'sizeHistory')",
+        "stack": "TypeError: Cannot read properties of undefined (reading 'sizeHistory')\n    at EmbeddingCache.analyzeSizeGrowth (/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/embedding-cache.js:1382:67)\n    at EmbeddingCache.analyzePerformance (/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/embedding-cache.js:1259:56)\n    at runTests (/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/test-distributed-cache.js:216:36)"
+      },
+      "timestamp": "2025-03-16T00:43:45.485Z"
+    }
+  ],
+  "summary": {
+    "totalTests": 7,
+    "passedTests": 5,
+    "failedTests": 2
+  }
+}

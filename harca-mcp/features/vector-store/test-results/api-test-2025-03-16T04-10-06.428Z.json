@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-03-16T04:08:51.397Z",
+  "tests": [
+    {
+      "name": "ルートエンドポイント",
+      "status": "failed",
+      "error": "timeout of 15000ms exceeded"
+    },
+    {
+      "name": "埋め込みエンドポイント",
+      "status": "failed",
+      "error": "timeout of 15000ms exceeded"
+    },
+    {
+      "name": "検索エンドポイント",
+      "status": "failed",
+      "error": "timeout of 15000ms exceeded"
+    },
+    {
+      "name": "キャッシュ統計情報エンドポイント",
+      "status": "failed",
+      "error": "timeout of 15000ms exceeded"
+    },
+    {
+      "name": "キャッシュクリアエンドポイント",
+      "status": "failed",
+      "error": "timeout of 15000ms exceeded"
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 0,
+    "failed": 5
+  }
+}

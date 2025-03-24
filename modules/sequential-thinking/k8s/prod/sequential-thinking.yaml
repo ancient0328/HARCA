@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harca-sequential-thinking
+  namespace: harca-prod
+  labels:
+    app: harca-sequential-thinking
+    environment: production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: harca-sequential-thinking
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: harca-sequential-thinking
+    spec:
+      containers:
+      - name: sequential-thinking
+        image: ghcr.io/harca/sequential-thinking:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3740
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DEBUG
+          value: "false"
+        - name: PORT
+          value: "3740"
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3740
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3740
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /
+            port: 3740
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 12
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: harca-sequential-thinking
+  namespace: harca-prod
+  labels:
+    app: harca-sequential-thinking
+    environment: production
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3740
+    targetPort: 3740
+    protocol: TCP
+    name: http
+  selector:
+    app: harca-sequential-thinking
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: harca-sequential-thinking
+  namespace: harca-prod
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: harca-sequential-thinking
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

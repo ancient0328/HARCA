@@ -1,0 +1,51 @@
+{
+  "name": "harca-mcp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "start:harca": "node scripts/start-harca.js",
+    "start:http": "node scripts/start-harca.js --mode=http",
+    "start:stdio": "node scripts/start-harca.js --mode=stdio",
+    "start:docker": "node scripts/start-harca.js --mode=docker",
+    "start:windsurf": "node scripts/start-harca.js --agent=windsurf",
+    "start:cursor": "node scripts/start-harca.js --agent=cursor",
+    "start:cline": "node scripts/start-harca.js --agent=cline",
+    "start:roocode": "node scripts/start-harca.js --agent=roocode",
+    "start:claude": "node scripts/start-harca.js --agent=claude",
+    "test:openai": "node scripts/test-openai-embedding.js",
+    "test:cache": "node scripts/test-embedding-cache.js",
+    "create:project-record": "node scripts/create-project-record.js",
+    "update:master-doc": "node scripts/update-master-document.js",
+    "docs:update": "node scripts/update-all-docs.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.5.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "@modelcontextprotocol/server-postgres": "^0.6.2",
+    "axios": "^1.8.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "iconv-lite": "^0.6.3",
+    "ioredis": "^5.6.0",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.87.3",
+    "pg": "^8.14.0",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "startTime": "2025-03-16T07:51:41.321Z",
+  "tests": [
+    {
+      "name": "ベクトルストアAPIの基本機能",
+      "status": "passed"
+    },
+    {
+      "name": "キャッシュ機能",
+      "status": "failed",
+      "error": "クリア後はキャッシュにデータがないはず"
+    },
+    {
+      "name": "エラーハンドリング機能",
+      "status": "passed"
+    },
+    {
+      "name": "コンポーネント連携",
+      "status": "failed",
+      "error": "キャッシュから取得されるため、モデル呼び出し回数は変わらないはず"
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "passed": 2,
+    "failed": 2
+  },
+  "endTime": "2025-03-16T07:51:41.327Z"
+}

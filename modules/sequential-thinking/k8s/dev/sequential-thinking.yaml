@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harca-sequential-thinking
+  namespace: harca-dev
+  labels:
+    app: harca-sequential-thinking
+    environment: development
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: harca-sequential-thinking
+  template:
+    metadata:
+      labels:
+        app: harca-sequential-thinking
+    spec:
+      containers:
+      - name: sequential-thinking
+        image: ghcr.io/harca/sequential-thinking:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3740
+        env:
+        - name: NODE_ENV
+          value: "development"
+        - name: DEBUG
+          value: "true"
+        - name: PORT
+          value: "3740"
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3740
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3740
+          initialDelaySeconds: 20
+          periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: harca-sequential-thinking
+  namespace: harca-dev
+  labels:
+    app: harca-sequential-thinking
+    environment: development
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3740
+    targetPort: 3740
+    protocol: TCP
+    name: http
+  selector:
+    app: harca-sequential-thinking

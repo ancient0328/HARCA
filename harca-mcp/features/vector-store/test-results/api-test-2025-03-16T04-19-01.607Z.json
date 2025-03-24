@@ -1,0 +1,90 @@
+{
+  "timestamp": "2025-03-16T04:18:46.555Z",
+  "tests": [
+    {
+      "name": "ルートエンドポイント",
+      "status": "passed",
+      "data": {
+        "name": "HARCA Vector Store API",
+        "version": "1.0.0",
+        "endpoints": [
+          {
+            "path": "/api/embed",
+            "method": "POST",
+            "description": "テキストを埋め込みベクトルに変換"
+          },
+          {
+            "path": "/api/search",
+            "method": "POST",
+            "description": "ベクトル検索を実行"
+          },
+          {
+            "path": "/api/cache/stats",
+            "method": "GET",
+            "description": "キャッシュ統計情報を取得"
+          },
+          {
+            "path": "/api/cache/clear",
+            "method": "POST",
+            "description": "キャッシュをクリア"
+          }
+        ]
+      }
+    },
+    {
+      "name": "埋め込みエンドポイント",
+      "status": "passed",
+      "dimensions": 1536,
+      "model": "text-embedding-ada-002"
+    },
+    {
+      "name": "検索エンドポイント",
+      "status": "passed",
+      "results": 2,
+      "topResult": "2"
+    },
+    {
+      "name": "キャッシュ統計情報エンドポイント",
+      "status": "passed",
+      "stats": {
+        "memory": {
+          "hits": 0,
+          "misses": 5,
+          "sets": 5,
+          "size": 0,
+          "hitRate": "0.00%"
+        },
+        "redis": {
+          "hits": 0,
+          "misses": 5,
+          "sets": 5,
+          "hitRate": "0.00%"
+        },
+        "file": {
+          "hits": 0,
+          "misses": 5,
+          "sets": 5,
+          "size": 18,
+          "hitRate": "0.00%"
+        },
+        "total": {
+          "hits": 0,
+          "misses": 5,
+          "sets": 15,
+          "size": 18,
+          "hitRate": "0.00%"
+        }
+      }
+    },
+    {
+      "name": "キャッシュクリアエンドポイント",
+      "status": "failed",
+      "error": "timeout of 15000ms exceeded"
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 4,
+    "failed": 1
+  }
+}

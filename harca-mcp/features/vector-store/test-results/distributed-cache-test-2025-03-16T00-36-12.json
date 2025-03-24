@@ -1,0 +1,50 @@
+{
+  "tests": [
+    {
+      "name": "キャッシュの初期化",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスが正常に初期化されました",
+      "details": {},
+      "timestamp": "2025-03-16T00:36:11.193Z"
+    },
+    {
+      "name": "キャッシュのクリア",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスがクリアされました",
+      "details": {},
+      "timestamp": "2025-03-16T00:36:11.199Z"
+    },
+    {
+      "name": "キャッシュへのデータ設定",
+      "passed": true,
+      "message": "5個のアイテムをキャッシュ1に設定しました",
+      "details": {},
+      "timestamp": "2025-03-16T00:36:11.244Z"
+    },
+    {
+      "name": "インスタンス間のキャッシュ同期",
+      "passed": true,
+      "message": "5/5のアイテムがインスタンス2から取得できました",
+      "details": {
+        "successCount": 5,
+        "totalItems": 5
+      },
+      "timestamp": "2025-03-16T00:36:12.247Z"
+    },
+    {
+      "name": "テスト実行",
+      "passed": false,
+      "message": "テスト実行中にエラーが発生しました",
+      "details": {
+        "error": "this.memoryCache.keys is not a function or its return value is not iterable",
+        "stack": "TypeError: this.memoryCache.keys is not a function or its return value is not iterable\n    at EmbeddingCache.clearModelCache (/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/embedding-cache.js:925:42)\n    at runTests (/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/test-distributed-cache.js:155:18)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"
+      },
+      "timestamp": "2025-03-16T00:36:12.247Z"
+    }
+  ],
+  "summary": {
+    "totalTests": 5,
+    "passedTests": 4,
+    "failedTests": 1
+  }
+}

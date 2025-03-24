@@ -1,0 +1,166 @@
+version: '3.8'
+
+services:
+  harca:
+    build:
+      context: ./harca-mcp
+      dockerfile: Dockerfile
+    container_name: harca-server
+    restart: unless-stopped
+    ports:
+      - "${HARCA_PORT:-3700}:3700"
+    environment:
+      - NODE_ENV=development
+      - PORT=3700
+      - DEBUG=harca:*,mcp:*
+      - NODE_OPTIONS=--experimental-modules --es-module-specifier-resolution=node
+      - REDIS_URL=redis://redis:6379
+      # PostgreSQL接続設定
+      - POSTGRES_CONNECTION_STRING=postgres://harca:harca_password@postgres:3730/harca_db
+      # AIエージェント連携のための環境変数
+      - RESPONSE_FORMAT=json
+      # デフォルトでWindsurf Cascadeとの連携を有効化
+      - WINDSURF_INTEGRATION=true
+      # HARCAモード設定
+      - HARCA_MODE=http
+      # Sequential Thinkingサービス接続設定
+      - SEQUENTIAL_THINKING_URL=http://sequential-thinking:3740
+      # ルートディレクトリ設定
+      - HARCA_ROOT=/app
+    env_file:
+      - ./harca-mcp/.env
+    volumes:
+      - ./logs:/app/logs
+      - ./harca-mcp:/app
+      - ./modules:/app/modules
+      - ./modules/document-rag/logs:/app/modules/document-rag/logs
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      sequential-thinking:
+        condition: service_started
+    command: node scripts/start-harca.js --mode=http
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3700/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - harca-network
+
+  sequential-thinking:
+    build:
+      context: ./modules/sequential-thinking
+      dockerfile: Dockerfile
+    container_name: harca-sequential-thinking
+    restart: unless-stopped
+    ports:
+      - "${SEQUENTIAL_THINKING_PORT:-3740}:3740"
+    environment:
+      - NODE_ENV=development
+      - PORT=3740
+      - DEBUG=true
+    volumes:
+      - ./modules/sequential-thinking:/app
+      - /app/node_modules
+    healthcheck:
+      test: ["CMD", "curl", "-X", "POST", "-H", "Content-Type: application/json", "-d", "{\"jsonrpc\":\"2.0\",\"id\":\"health\",\"method\":\"mcp.listTools\",\"params\":{}}", "http://localhost:3740"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - harca-network
+
+  redis:
+    build:
+      context: ./modules/redis
+      dockerfile: Dockerfile
+    container_name: harca-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-3710}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - harca-network
+
+  postgres:
+    build:
+      context: ./modules/postgres
+      dockerfile: Dockerfile
+    container_name: harca-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-harca}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-harca_password}
+      POSTGRES_DB: ${POSTGRES_DB:-harca_db}
+    ports:
+      - "${DB_PORT:-3730}:3730"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./modules/postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - harca-network
+    command: postgres -c 'max_connections=100' -c 'shared_buffers=256MB' -c 'port=3730'
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: harca-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-harca_admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+      PGADMIN_CONFIG_ALLOW_SPECIAL_EMAIL_DOMAINS: 'True'
+    ports:
+      - "${PGADMIN_PORT:-3720}:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - harca-network
+
+  # フロントエンドサービスは現在ディレクトリが存在しないため一時的にコメントアウト
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: harca-frontend
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${FRONTEND_PORT:-3600}:3000"
+  #   environment:
+  #     - NODE_ENV=development
+  #     - REACT_APP_API_URL=http://localhost:3700
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     - harca
+  #   networks:
+  #     - harca-network
+
+volumes:
+  redis-data:
+  postgres-data:
+  pgadmin-data:
+
+networks:
+  harca-network:
+    driver: bridge

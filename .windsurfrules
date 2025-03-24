@@ -1,0 +1,103 @@
+# HARCA Project-Specific Rules
+
+## Package Management
+
+### Package Manager
+- **Required**: This project uses **pnpm**
+- **Prohibited**: Using npm or yarn is not allowed
+- Documentation (including README) must include:
+  - Instructions for using pnpm
+  - Information for npm users and migration guide
+
+### Dependency Management
+- Use `pnpm add` / `pnpm remove` commands for adding/removing dependencies
+- Explicitly declare peer dependencies
+- Properly configure and utilize workspaces
+
+## Environment Configuration
+
+### Port Assignments
+- **HARCA Server**: Port 3700 (HTTP mode)
+- **Redis**: Port 3710
+- **pgAdmin**: Port 3720
+- **PostgreSQL**: Port 3730
+- Custom services should use port 3740 and above
+
+### Environment Variable Management
+- Always keep `.env.example` file up-to-date
+- Store sensitive information in `.env.local` (not tracked by git)
+- Use service name as prefix for environment variable names (e.g., `HARCA_API_KEY`)
+
+## HARCA-Specific Technical Implementation
+
+### Vector Store
+- Default: PostgreSQL vector store with `pgvector` extension
+- Embedding model: OpenAI Ada 002 as default, with fallback configuration for other models as needed
+- Metadata filtering should utilize appropriate indexes
+
+### Cache System
+- Hierarchy:
+  - L1: Memory cache (within Node.js)
+  - L2: Redis (with persistence configuration)
+  - L3: File system (for large data)
+- TTL: Default is 15 minutes, adjusted based on importance
+- Cache key naming convention: `service:entity:id:action`
+
+### MCP Protocol Implementation
+- MCP version: Use the latest stable version
+- Extensions: Implement HARCA-provided extension set
+- Logging: Log communication content at DEBUG level in development environment only
+
+## Development Workflow
+
+### Branching Strategy
+- `main`: Stable/production version
+- `develop`: Development integration branch
+- Feature branches: `feature/feature-name`
+- Bug fixes: `fix/concise-problem-description`
+
+### Code Review Criteria
+- Conduct self-review before requesting reviews
+- Approval from at least one team member required
+- All CI tests must pass
+
+### Deployment Process
+- Test environment: Automatic deployment from develop branch
+- Staging: Manual trigger deployment
+- Production: Automatic deployment after merge to main branch with manual approval
+
+## Documentation Requirements
+
+### Project README
+- Project overview and purpose
+- Setup instructions (both for pnpm and reference for npm users)
+- How to start the development environment
+- How to run tests
+- Overview of main APIs/features
+
+### API Specifications
+- Written in OpenAPI (Swagger) format
+- Include detailed description and samples for each endpoint
+- Specify authentication requirements
+
+### Architecture Documentation
+- System configuration diagram
+- Component dependencies
+- Data flow explanation
+- Important design decisions and their rationale
+
+## Performance and Security Requirements
+
+### Performance Standards
+- API response time: 500ms or less for 95% of requests
+- Vector search: 200ms or less for 95% of queries in 10 million vectors
+- Frontend loading: First Contentful Paint within 1.5 seconds
+
+### Security Standards
+- Authentication check on all API endpoints
+- Strict validation of user input
+- Proper encryption of sensitive data
+- Regular vulnerability scanning of dependencies
+- Implementation of CSRF tokens
+
+*These guidelines are specific to the HARCA project and should be applied in addition to general development guidelines.*

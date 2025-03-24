@@ -1,0 +1,28 @@
+{
+  "memory": {
+    "hits": 0,
+    "misses": 20,
+    "sets": 20,
+    "size": 0
+  },
+  "redis": {
+    "hits": 0,
+    "misses": 20,
+    "sets": 20
+  },
+  "file": {
+    "hits": 0,
+    "misses": 20,
+    "sets": 20,
+    "size": 0
+  },
+  "total": {
+    "hits": 0,
+    "misses": 20,
+    "sets": 60,
+    "requests": 20,
+    "size": 0
+  },
+  "originalSize": 0,
+  "compressedSize": 0
+}

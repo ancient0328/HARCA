@@ -1,0 +1,21 @@
+{
+  "hits": {
+    "memory": 0,
+    "redis": 1,
+    "file": 0,
+    "total": 1
+  },
+  "misses": {
+    "memory": 0,
+    "redis": 0,
+    "file": 0,
+    "total": 0
+  },
+  "sets": {
+    "memory": 0,
+    "redis": 0,
+    "file": 0,
+    "total": 0
+  },
+  "requests": 1
+}

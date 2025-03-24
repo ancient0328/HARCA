@@ -1,0 +1,29 @@
+{
+  "startTime": "2025-03-16T08:12:30.101Z",
+  "tests": [
+    {
+      "name": "ベクトルストアAPIの基本機能",
+      "status": "passed"
+    },
+    {
+      "name": "キャッシュ機能",
+      "status": "failed",
+      "error": "キャッシュから取得されるため、モデル呼び出し回数は0であるはず"
+    },
+    {
+      "name": "エラーハンドリング機能",
+      "status": "passed"
+    },
+    {
+      "name": "コンポーネント連携",
+      "status": "failed",
+      "error": "埋め込みベクトルの取得に失敗しました: 埋め込みベクトルの生成に失敗しました: モデル \"text-embedding-ada-002\" が見つかりません"
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "passed": 2,
+    "failed": 2
+  },
+  "endTime": "2025-03-16T08:12:30.106Z"
+}

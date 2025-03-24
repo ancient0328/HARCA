@@ -1,0 +1,19 @@
+{
+  "name": "@harca/knowledge-base",
+  "version": "0.1.0",
+  "description": "HARCAプロジェクトの知識ベースモジュール",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "dependencies": {
+    "uuid": "^9.0.1"
+  }
+}

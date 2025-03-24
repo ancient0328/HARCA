@@ -1,0 +1,87 @@
+{
+  "tests": [
+    {
+      "name": "キャッシュの初期化",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスが正常に初期化されました",
+      "details": {},
+      "timestamp": "2025-03-16T01:46:17.083Z"
+    },
+    {
+      "name": "キャッシュのクリア",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスがクリアされました",
+      "details": {},
+      "timestamp": "2025-03-16T01:46:17.112Z"
+    },
+    {
+      "name": "キャッシュへのデータ設定",
+      "passed": true,
+      "message": "5個のアイテムをキャッシュ1に設定しました",
+      "details": {},
+      "timestamp": "2025-03-16T01:46:17.115Z"
+    },
+    {
+      "name": "キャッシュ統計情報",
+      "passed": true,
+      "message": "両方のインスタンスから統計情報を取得できました",
+      "details": {
+        "stats1": {},
+        "stats2": {}
+      },
+      "timestamp": "2025-03-16T01:46:17.115Z"
+    },
+    {
+      "name": "キャッシュパフォーマンス分析",
+      "passed": true,
+      "message": "キャッシュパフォーマンス分析を実行できました",
+      "details": {
+        "analysis": {
+          "hitRate": 0,
+          "efficiency": 0,
+          "compression": {
+            "enabled": true,
+            "ratio": 1,
+            "level": 6,
+            "threshold": 100
+          }
+        }
+      },
+      "timestamp": "2025-03-16T01:46:17.116Z"
+    },
+    {
+      "name": "圧縮機能",
+      "passed": true,
+      "message": "圧縮されたデータが正しく保存・復元されました",
+      "details": {
+        "originalSize": 19225,
+        "compressionEnabled": true,
+        "compressionThreshold": 100
+      },
+      "timestamp": "2025-03-16T01:46:17.121Z"
+    },
+    {
+      "name": "圧縮率",
+      "passed": true,
+      "message": "圧縮率: 46.12%",
+      "details": {
+        "originalSize": 19225,
+        "compressedSize": 8866,
+        "compressionRatio": 0.4611703511053316
+      },
+      "timestamp": "2025-03-16T01:46:17.122Z"
+    },
+    {
+      "name": "キャッシュの終了",
+      "passed": true,
+      "message": "両方のキャッシュインスタンスを正常に終了しました",
+      "details": {},
+      "timestamp": "2025-03-16T01:46:17.122Z"
+    }
+  ],
+  "summary": {
+    "totalTests": 8,
+    "passedTests": 8,
+    "failedTests": 0
+  }
+}

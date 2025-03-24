@@ -1,0 +1,19 @@
+{
+  "tests": [
+    {
+      "name": "テスト実行",
+      "passed": false,
+      "message": "テスト実行中にエラーが発生しました",
+      "details": {
+        "error": "this._loadFileCache is not a function",
+        "stack": "TypeError: this._loadFileCache is not a function\n    at new EmbeddingCache (/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/embedding-cache.js:183:12)\n    at runTests (/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/test-distributed-cache.js:90:20)\n    at Object.<anonymous> (/Users/ancient0328/Development/MCPserver/HARCA/harca-mcp/plugins/vector-store/test-distributed-cache.js:265:1)\n    at Module._compile (node:internal/modules/cjs/loader:1554:14)\n    at Object..js (node:internal/modules/cjs/loader:1706:10)\n    at Module.load (node:internal/modules/cjs/loader:1289:32)\n    at Function._load (node:internal/modules/cjs/loader:1108:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)"
+      },
+      "timestamp": "2025-03-16T00:30:58.629Z"
+    }
+  ],
+  "summary": {
+    "totalTests": 1,
+    "passedTests": 0,
+    "failedTests": 1
+  }
+}

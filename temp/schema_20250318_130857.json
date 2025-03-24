@@ -1,0 +1,44 @@
+{
+  "code_vectors": [
+    {
+      "column_name": "id",
+      "data_type": "uuid",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "udt_name": "uuid"
+    },
+    {
+      "column_name": "content",
+      "data_type": "text",
+      "character_maximum_length": null,
+      "is_nullable": "NO",
+      "column_default": null,
+      "udt_name": "text"
+    },
+    {
+      "column_name": "embedding",
+      "data_type": "USER-DEFINED",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null,
+      "udt_name": "vector"
+    },
+    {
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": null,
+      "udt_name": "jsonb"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "character_maximum_length": null,
+      "is_nullable": "YES",
+      "column_default": "now()",
+      "udt_name": "timestamptz"
+    }
+  ]
+}
