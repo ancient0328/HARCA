@@ -1,1 +1,12 @@
 node_modules
+.env
+.env.local
+.env.*.local
+*.log
+dist
+build
+.DS_Store
+.cache
+.cursor
+coverage
+temp
