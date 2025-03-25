@@ -50,7 +50,22 @@ class RedisCacheManager {
     this.eventListeners = {
       set: [],
       delete: [],
-      clear: []
+      clear: [],
+      invalidate: [],
+      updateExpiry: []
+    };
+    
+    // 統計情報
+    this.stats = {
+      startTime: Date.now(),
+      hits: 0,
+      misses: 0,
+      gets: 0,
+      sets: 0,
+      deletes: 0,
+      errors: 0,
+      published: 0,
+      received: 0
     };
     
     console.log(`Redis分散キャッシュマネージャーを初期化しました（インスタンスID: ${this.config.instanceId}）`);
@@ -91,7 +106,9 @@ class RedisCacheManager {
         
         // 特別なメッセージタイプの処理
         if (data.type === 'clearModel' && data.metadata && data.metadata.modelName) {
-          this.clearModelCache(data.metadata.modelName)
+          // 送信元のインスタンスIDを渡して、無限ループを防止
+          const sourceInstance = data.metadata.sourceInstance || null;
+          this.clearModelCache(data.metadata.modelName, sourceInstance)
             .then(() => console.log(`PubSubメッセージにより ${data.metadata.modelName} モデルのキャッシュをクリアしました`))
             .catch(err => console.error(`PubSubメッセージによるモデルキャッシュのクリア中にエラーが発生しました:`, err));
         }
@@ -100,6 +117,17 @@ class RedisCacheManager {
         if (data.type && this.eventListeners[data.type]) {
           this._notifyListeners(data.type, data.key, data.metadata);
         }
+        
+        // 統計情報の更新
+        if (data.type === 'set') {
+          this.stats.sets++;
+        } else if (data.type === 'delete') {
+          this.stats.deletes++;
+        } else if (data.type === 'clear') {
+          this.stats.errors++;
+        }
+        
+        this.stats.received++;
       } catch (err) {
         console.error('受信したメッセージの処理中にエラーが発生しました:', err);
       }
@@ -128,6 +156,8 @@ class RedisCacheManager {
     this.publisher.publish(channel, message).catch(err => {
       console.error('メッセージの発行に失敗しました:', err);
     });
+    
+    this.stats.published++;
   }
   
   /**
@@ -172,11 +202,18 @@ class RedisCacheManager {
     
     try {
       const data = await this.redis.get(key);
-      if (!data) return null;
+      if (!data) {
+        this.stats.misses++;
+        return null;
+      }
+      
+      this.stats.hits++;
+      this.stats.gets++;
       
       return JSON.parse(data);
     } catch (err) {
       console.error('Redisからのデータ取得中にエラーが発生しました:', err);
+      this.stats.errors++;
       return null;
     }
   }
@@ -215,6 +252,7 @@ class RedisCacheManager {
       return true;
     } catch (err) {
       console.error('Redisへのデータ設定中にエラーが発生しました:', err);
+      this.stats.errors++;
       return false;
     }
   }
@@ -240,6 +278,7 @@ class RedisCacheManager {
       return true;
     } catch (err) {
       console.error('Redisからのデータ削除中にエラーが発生しました:', err);
+      this.stats.errors++;
       return false;
     }
   }
@@ -262,133 +301,171 @@ class RedisCacheManager {
       return keys;
     } catch (err) {
       console.error('キーの検索中にエラーが発生しました:', err);
+      this.stats.errors++;
       return [];
     }
   }
   
   /**
-   * 特定のモデルのすべてのキャッシュを削除します
+   * 特定のモデルのすべてのRedisキャッシュを削除し、必要に応じて他のインスタンスに通知します
    * @param {string} modelName モデル名
+   * @param {string} [sourceInstanceId] 送信元のインスタンスID（自分自身のイベントを無視するため）
    * @returns {Promise<boolean>} 成功した場合はtrue
    */
-  async clearModelCache(modelName) {
+  async clearModelCache(modelName, sourceInstanceId = null) {
     try {
-      console.log(`モデル ${modelName} のキャッシュをクリアします...`);
+      console.log(`Redis分散キャッシュから ${modelName} モデルのエントリを削除しています...`);
       
-      // このモデルに関連するすべてのキーを検索
-      // モデル名は通常キーの末尾にあるため、ワイルドカードを使用
-      const keys = await this.findKeys(`*${modelName}`);
+      // 1. すべてのキーを取得
+      const keys = await this.redis.keys(`${this.config.keyPrefix}*`);
+      console.log(`Redis分散キャッシュで ${keys.length} 件のキーを検出しました`);
       
-      if (keys.length === 0) {
-        console.log(`モデル ${modelName} のキャッシュキーが見つかりませんでした`);
-        return true;
-      }
+      // 2. 各キーの内容を確認して、指定されたモデルのエントリを削除
+      let deletedCount = 0;
       
-      console.log(`モデル ${modelName} のキャッシュキーを削除します: ${keys.length}件`);
-      
-      // 一括削除
-      await this.redis.del(keys);
-      
-      // イベントリスナーに通知
-      this._notifyListeners('clear');
-      
-      // PubSubを通じて他のインスタンスに通知
-      this._publishMessage('clear');
-      
-      console.log(`モデル ${modelName} のキャッシュを正常にクリアしました`);
-      return true;
-    } catch (err) {
-      console.error(`モデル ${modelName} のキャッシュクリア中にエラーが発生しました:`, err);
-      return false;
-    }
-  }
-  
-  /**
-   * すべてのキャッシュを削除します
-   * @returns {Promise<boolean>} 成功した場合はtrue
-   */
-  async clear() {
-    try {
-      console.log('Redis分散キャッシュのすべてのキーを検索しています...');
-      const keys = await this.findKeys('*');
-      
-      if (!keys || keys.length === 0) {
-        console.log('削除するキーが見つかりませんでした');
-        return true;
-      }
-      
-      console.log(`${keys.length}個のキーを削除します...`);
-      
-      // バッチサイズを設定（大きすぎると処理が遅くなる可能性があります）
-      const batchSize = 100;
-      const batches = [];
-      
-      // キーをバッチに分割
-      for (let i = 0; i < keys.length; i += batchSize) {
-        batches.push(keys.slice(i, i + batchSize));
-      }
-      
-      console.log(`${batches.length}バッチに分割して削除を実行します（バッチサイズ: ${batchSize}）`);
-      
-      // 各バッチを処理
-      for (let i = 0; i < batches.length; i++) {
-        const batch = batches[i];
-        console.log(`バッチ ${i + 1}/${batches.length} を処理中... (${batch.length}キー)`);
-        
-        if (batch.length > 0) {
-          // DELコマンドを使用して一度に複数のキーを削除
-          await this.redis.del(batch);
+      for (const key of keys) {
+        try {
+          // キーの内容を取得
+          const value = await this.redis.get(key);
+          if (!value) continue;
+          
+          // JSONとしてパース
+          const cacheEntry = JSON.parse(value);
+          
+          // モデル名が一致するかチェック
+          if (cacheEntry && cacheEntry.modelName === modelName) {
+            await this.redis.del(key);
+            deletedCount++;
+          }
+        } catch (error) {
+          console.error(`キー ${key} の処理中にエラーが発生しました:`, error);
         }
       }
       
-      console.log(`${keys.length}個のキーを削除しました`);
+      console.log(`Redis分散キャッシュから ${modelName} モデルの ${deletedCount} エントリを削除しました`);
       
-      // PubSubを通じて他のインスタンスに通知
-      this._publishMessage('clear', null, null);
+      // 3. 他のインスタンスに通知
+      if (this.config.enablePubSub && sourceInstanceId !== this.config.instanceId) {
+        this._publishMessage('clearModel', null, { 
+          modelName, 
+          sourceInstance: sourceInstanceId || this.config.instanceId 
+        });
+      }
       
       return true;
     } catch (error) {
-      console.error('Redis分散キャッシュのクリア中にエラーが発生しました:', error);
+      console.error(`Redis分散キャッシュからの ${modelName} モデルの削除中にエラーが発生しました:`, error);
+      this.stats.errors++;
       return false;
     }
   }
   
   /**
-   * キャッシュの統計情報を取得します
+   * Redis内のすべてのキャッシュエントリをクリアします
+   * @param {string} [sourceInstanceId] 送信元のインスタンスID（自分自身のイベントを無視するため）
+   * @returns {Promise<boolean>} 成功した場合はtrue
+   */
+  async clear(sourceInstanceId = null) {
+    try {
+      console.log('Redis内のすべてのキャッシュをクリアしています...');
+      
+      // キャッシュキーのパターンを指定してすべてのキーを取得
+      const pattern = `${this.config.keyPrefix}*`;
+      const keys = await this.redis.keys(pattern);
+      
+      if (keys.length === 0) {
+        console.log('クリアするキャッシュエントリがありません');
+        return true;
+      }
+      
+      console.log(`${keys.length}個のキャッシュエントリをクリアします`);
+      
+      // 一度に複数のキーを削除（パフォーマンス向上のため）
+      if (keys.length > 0) {
+        await this.redis.del(...keys);
+      }
+      
+      // 他のインスタンスにも通知
+      if (this.config.enablePubSub && sourceInstanceId !== this.config.instanceId) {
+        this._publishMessage('clear', null, { 
+          sourceInstance: sourceInstanceId || this.config.instanceId 
+        });
+      }
+      
+      console.log('Redis内のすべてのキャッシュを正常にクリアしました');
+      return true;
+    } catch (error) {
+      console.error('Redis内のキャッシュクリア中にエラーが発生しました:', error);
+      this.stats.errors++;
+      return false;
+    }
+  }
+  
+  /**
+   * Redis分散キャッシュの統計情報を取得します
    * @returns {Promise<Object>} 統計情報
    */
   async getStats() {
     try {
-      // Redisの情報を取得
-      const info = await this.redis.info();
+      // キャッシュサイズの取得
+      const keys = await this.redis.keys(`${this.config.keyPrefix}:*`);
+      const size = keys.length;
       
-      // キャッシュキーの数を取得
-      const keys = await this.redis.keys(`${this.config.keyPrefix}*`);
-      
-      // モデル別のキー数を集計
-      const modelStats = {};
-      for (const key of keys) {
-        const parts = key.split(':');
-        const modelName = parts[parts.length - 1] || 'unknown';
+      // 統計情報の準備
+      const stats = {
+        // 基本統計情報
+        size,
         
-        if (!modelStats[modelName]) {
-          modelStats[modelName] = 0;
-        }
+        // ヒット率
+        hits: this.stats.hits || 0,
+        misses: this.stats.misses || 0,
+        hitRate: (this.stats.hits + this.stats.misses) > 0 
+          ? this.stats.hits / (this.stats.hits + this.stats.misses) 
+          : 0,
         
-        modelStats[modelName]++;
-      }
-      
-      return {
-        totalKeys: keys.length,
-        modelStats,
-        redisInfo: this._parseRedisInfo(info)
+        // 操作統計
+        operations: {
+          gets: this.stats.gets || 0,
+          sets: this.stats.sets || 0,
+          deletes: this.stats.deletes || 0,
+          total: (this.stats.gets || 0) + (this.stats.sets || 0) + (this.stats.deletes || 0)
+        },
+        
+        // エラー統計
+        errors: this.stats.errors || 0,
+        
+        // PubSub統計
+        pubsub: {
+          published: this.stats.published || 0,
+          received: this.stats.received || 0
+        },
+        
+        // 稼働時間
+        uptime: Date.now() - this.stats.startTime
       };
-    } catch (err) {
-      console.error('キャッシュ統計情報の取得中にエラーが発生しました:', err);
+      
+      return stats;
+    } catch (error) {
+      console.error('Redis統計情報の取得中にエラーが発生しました:', error);
+      this.stats.errors++;
       return {
-        totalKeys: 0,
-        modelStats: {},
-        redisInfo: {}
+        size: 0,
+        hits: 0,
+        misses: 0,
+        hitRate: 0,
+        operations: {
+          gets: 0,
+          sets: 0,
+          deletes: 0,
+          total: 0
+        },
+        errors: 0,
+        pubsub: {
+          published: 0,
+          received: 0
+        },
+        uptime: 0,
+        error: error.message
       };
     }
   }
@@ -461,6 +538,262 @@ class RedisCacheManager {
       return true;
     } catch (error) {
       console.error('Redis接続を閉じる際にエラーが発生しました:', error);
+      this.stats.errors++;
+      return false;
+    }
+  }
+  
+  /**
+   * キャッシュ無効化イベントを発行します
+   * @param {string} text テキスト
+   * @param {string} modelName モデル名
+   * @param {Object} metadata 追加のメタデータ
+   * @returns {Promise<boolean>} 成功した場合はtrue
+   */
+  async publishInvalidationEvent(text, modelName, metadata = {}) {
+    if (!this.config.enablePubSub) {
+      return false;
+    }
+    
+    try {
+      // キーを生成
+      const key = this._getCacheKey(text, modelName);
+      
+      // 無効化イベントを発行
+      this._publishMessage('invalidate', key, {
+        ...metadata,
+        modelName,
+        timestamp: Date.now()
+      });
+      
+      return true;
+    } catch (error) {
+      console.error('キャッシュ無効化イベントの発行に失敗しました:', error);
+      this.stats.errors++;
+      return false;
+    }
+  }
+  
+  /**
+   * 特定のモデルに関連するすべてのキャッシュを無効化します
+   * @param {string} modelName モデル名
+   * @returns {Promise<boolean>} 成功した場合はtrue
+   */
+  async invalidateModelCache(modelName) {
+    if (!modelName) {
+      return false;
+    }
+    
+    try {
+      // モデル無効化イベントを発行
+      this._publishMessage('clearModel', null, {
+        modelName,
+        timestamp: Date.now()
+      });
+      
+      // モデル名に基づいてキーパターンを作成
+      const pattern = `${this.config.keyPrefix}*:${modelName}:*`;
+      
+      // パターンに一致するすべてのキーを検索
+      const keys = await this.redis.keys(pattern);
+      
+      if (keys.length > 0) {
+        // 一括削除
+        await this.redis.del(keys);
+        console.log(`モデル '${modelName}' に関連する ${keys.length} 個のキャッシュエントリを無効化しました`);
+      }
+      
+      return true;
+    } catch (error) {
+      console.error(`モデル '${modelName}' のキャッシュ無効化に失敗しました:`, error);
+      this.stats.errors++;
+      return false;
+    }
+  }
+  
+  /**
+   * キャッシュの有効期限を更新します
+   * @param {string} key キャッシュキー
+   * @param {number} ttl 新しいTTL（秒）
+   * @returns {Promise<boolean>} 成功した場合はtrue
+   */
+  async updateExpiry(key, ttl) {
+    try {
+      const exists = await this.redis.exists(key);
+      if (!exists) {
+        return false;
+      }
+      
+      await this.redis.expire(key, ttl);
+      
+      // 更新イベントを発行
+      this._publishMessage('updateExpiry', key, {
+        ttl,
+        timestamp: Date.now()
+      });
+      
+      return true;
+    } catch (error) {
+      console.error('キャッシュの有効期限更新に失敗しました:', error);
+      this.stats.errors++;
+      return false;
+    }
+  }
+  
+  /**
+   * パターンに一致するキーを削除します
+   * @param {string} pattern 削除するキーのパターン
+   * @returns {Promise<Object>} 削除結果（成功したかどうかと削除されたキーの数）
+   */
+  async deleteByPattern(pattern) {
+    try {
+      // パターンにプレフィックスが含まれているかチェック
+      const searchPattern = pattern.startsWith(this.config.keyPrefix) 
+        ? pattern 
+        : `${this.config.keyPrefix}${pattern}`;
+      
+      console.log(`キーを検索: パターン=${searchPattern}`);
+      const keys = await this.findKeys(searchPattern);
+      
+      if (keys.length === 0) {
+        console.log(`パターン ${searchPattern} に一致するキーが見つかりませんでした`);
+        return { success: true, count: 0 };
+      }
+      
+      console.log(`${keys.length}個のキーを削除します...`);
+      
+      // バッチサイズを設定
+      const batchSize = 100;
+      const batches = [];
+      
+      // キーをバッチに分割
+      for (let i = 0; i < keys.length; i += batchSize) {
+        batches.push(keys.slice(i, i + batchSize));
+      }
+      
+      // 各バッチを処理
+      for (let i = 0; i < batches.length; i++) {
+        const batch = batches[i];
+        console.log(`バッチ ${i + 1}/${batches.length} を処理中... (${batch.length}キー)`);
+        
+        if (batch.length > 0) {
+          // DELコマンドを使用して一度に複数のキーを削除
+          await this.redis.del(batch);
+        }
+      }
+      
+      console.log(`パターン ${searchPattern} に一致する ${keys.length}個のキーを削除しました`);
+      
+      // 各キーの削除イベントを発行
+      for (const key of keys) {
+        this._notifyListeners('delete', key);
+      }
+      
+      // 一括削除イベントを発行
+      this._publishMessage('bulkDelete', null, {
+        pattern: searchPattern,
+        count: keys.length,
+        timestamp: Date.now()
+      });
+      
+      return { success: true, count: keys.length };
+    } catch (error) {
+      console.error(`パターン ${pattern} に一致するキーの削除中にエラーが発生しました:`, error);
+      this.stats.errors++;
+      return { success: false, count: 0, error: error.message };
+    }
+  }
+  
+  /**
+   * 特定のキーの無効化イベントを発行します
+   * @param {string} key 無効化するキー
+   * @returns {Promise<boolean>} 成功した場合はtrue
+   */
+  async publishInvalidation(key) {
+    try {
+      this._publishMessage('invalidate', key, {
+        timestamp: Date.now()
+      });
+      
+      return true;
+    } catch (error) {
+      console.error('無効化イベントの発行中にエラーが発生しました:', error);
+      this.stats.errors++;
+      return false;
+    }
+  }
+  
+  /**
+   * 特定のモデルの無効化イベントを発行します
+   * @param {string} modelName 無効化するモデル名
+   * @returns {Promise<boolean>} 成功した場合はtrue
+   */
+  async publishModelInvalidation(modelName) {
+    try {
+      this._publishMessage('clearModel', null, {
+        modelName,
+        timestamp: Date.now()
+      });
+      
+      return true;
+    } catch (error) {
+      console.error(`モデル ${modelName} の無効化イベント発行中にエラーが発生しました:`, error);
+      this.stats.errors++;
+      return false;
+    }
+  }
+  
+  /**
+   * パターンに一致するキャッシュエントリを一括削除します
+   * @param {string} pattern 削除するキーのパターン（正規表現文字列）
+   * @param {string} [sourceInstanceId] 送信元のインスタンスID（自分自身のイベントを無視するため）
+   * @returns {Promise<boolean>} 成功した場合はtrue
+   */
+  async bulkDelete(pattern, sourceInstanceId = null) {
+    try {
+      console.log(`パターン ${pattern} に一致するRedisキャッシュエントリを一括削除します`);
+      
+      // 1. すべてのキーを取得
+      const allKeys = await this.redis.keys(`${this.config.keyPrefix}:*`);
+      
+      // 2. パターンに一致するキーをフィルタリング
+      const regex = new RegExp(pattern);
+      const matchingKeys = allKeys.filter(key => regex.test(key));
+      
+      console.log(`${allKeys.length}件のキーのうち、${matchingKeys.length}件がパターン ${pattern} に一致しました`);
+      
+      // 3. 一致したキーを削除
+      let deletedCount = 0;
+      
+      if (matchingKeys.length > 0) {
+        // バッチサイズを定義
+        const batchSize = 100;
+        
+        // キーをバッチに分割して削除
+        for (let i = 0; i < matchingKeys.length; i += batchSize) {
+          const batch = matchingKeys.slice(i, i + batchSize);
+          console.log(`バッチ ${Math.floor(i / batchSize) + 1}/${Math.ceil(matchingKeys.length / batchSize)} を処理中... (${batch.length}キー)`);
+          
+          if (batch.length > 0) {
+            const result = await this.redis.del(batch);
+            deletedCount += result;
+          }
+        }
+      }
+      
+      console.log(`Redis分散キャッシュから ${deletedCount} 件のキーを削除しました`);
+      
+      // 4. 他のインスタンスに通知
+      if (this.config.enablePubSub && sourceInstanceId !== this.config.instanceId) {
+        this._publishMessage('bulkDelete', pattern, { 
+          sourceInstance: sourceInstanceId || this.config.instanceId 
+        });
+      }
+      
+      return true;
+    } catch (error) {
+      console.error(`パターン ${pattern} に一致するキャッシュエントリの一括削除中にエラーが発生しました:`, error);
+      this.stats.errors++;
       return false;
     }
   }

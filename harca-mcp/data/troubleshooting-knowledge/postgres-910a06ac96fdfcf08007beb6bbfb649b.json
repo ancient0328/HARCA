@@ -1,0 +1,5 @@
+{
+  "title": "コード修正例",
+  "content": "\n```javascript\n// PostgreSQL接続設定\ntry {\n  // 複数の可能性のある接続文字列環境変数をチェック\n  const connectionString = \n    process.env.POSTGRES_CONNECTION_STRING || \n    process.env.HARCA_POSTGRES_CONNECTION_STRING || \n    process.env.SUPABASE_CONNECTION_STRING;\n  \n  if (!connectionString) {\n    throw new Error('PostgreSQL接続文字列が設定されていません');\n  }\n  \n  console.log('PostgreSQL接続を初期化します...');\n  this.pool = new Pool({ connectionString });\n  \n  // 接続テスト\n  this.testConnection();\n} catch (error) {\n  console.error('PostgreSQL接続の初期化に失敗しました:', error.message);\n  console.warn('ベクトルストアの機能は制限されます');\n  this.pool = null;\n}\n```\n          ",
+  "id": "910a06ac96fdfcf08007beb6bbfb649b"
+}

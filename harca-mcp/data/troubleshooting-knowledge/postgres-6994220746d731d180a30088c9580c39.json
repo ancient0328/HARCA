@@ -1,0 +1,5 @@
+{
+  "title": "特定した問題",
+  "content": "\n1. **環境変数の不一致**:\n   - VectorStoreクラスは`SUPABASE_CONNECTION_STRING`環境変数を使用\n   - Docker環境では`POSTGRES_CONNECTION_STRING`環境変数を定義\n   - `.env.example`では`HARCA_POSTGRES_CONNECTION_STRING`を定義\n\n2. **テーブル構造の不一致**:\n   - VectorStoreクラスは`code_vectors`テーブルを参照\n   - 初期化スクリプトでは`embeddings`テーブルを作成\n\n3. **接続設定の問題**:\n   - PostgreSQLは3730ポートで実行されているが、設定が正しく反映されていない\n          ",
+  "id": "6994220746d731d180a30088c9580c39"
+}

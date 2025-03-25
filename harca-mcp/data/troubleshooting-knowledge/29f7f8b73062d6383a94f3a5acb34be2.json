@@ -1,0 +1,16 @@
+{
+  "id": "29f7f8b73062d6383a94f3a5acb34be2",
+  "title": "問題の詳細",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.358Z",
+  "sectionIndex": 7,
+  "wordCount": 31,
+  "charCount": 539,
+  "content": "### 問題の詳細\nテストが `モデル test-model-1 のキャッシュをクリアします...` から進まなくなる問題を特定しました。`clearModelCache`メソッドに複数の問題がありました：\n\n1. **無限ループの問題**：\n   - EmbeddingCacheのclearModelCacheメソッドがRedisCacheManagerのclearModelCacheメソッドを呼び出す\n   - RedisCacheManagerが'clearModel'イベントを発行する\n   - EmbeddingCacheの'clearModel'イベントリスナーが再びclearModelCacheメソッドを呼び出す\n   - これにより無限ループが発生する\n\n2. **ファイルキャッシュの処理問題**：\n   - ファイル名のパターンマッチングが正しく機能していない\n   - 実際のファイル名パターンと一致していない正規表現を使用\n\n3. **Redis PubSub伝播の問題**：\n   - RedisCacheManagerのclearModelCacheメソッドでのキー検索が適切でない\n   - モデル名に基づくキー検索が正しく行われていない\n"
+}

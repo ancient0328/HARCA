@@ -10,11 +10,17 @@
  * - メモリ使用量
  */
 
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
-const { performance } = require('perf_hooks');
-const os = require('os');
+import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
+import { performance } from 'perf_hooks';
+import os from 'os';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// ESモジュールで__dirnameを取得するための設定
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // APIのベースURL
 const API_BASE_URL = process.env.VECTOR_STORE_API_URL || 'http://localhost:3701';
@@ -488,14 +494,14 @@ async function runPerformanceTests() {
 }
 
 // テストを実行
-if (require.main === module) {
+if (import.meta.url === `file://${__filename}`) {
   runPerformanceTests().catch(err => {
     console.error('テスト実行エラー:', err);
     process.exit(1);
   });
 }
 
-module.exports = {
+export {
   runPerformanceTests,
   testEmbeddingPerformance,
   testSearchPerformance,

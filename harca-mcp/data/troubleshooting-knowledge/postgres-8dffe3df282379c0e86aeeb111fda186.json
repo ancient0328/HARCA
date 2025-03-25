@@ -1,0 +1,5 @@
+{
+  "title": "推奨される次のステップ",
+  "content": "\n1. 環境変数の設定: `POSTGRES_CONNECTION_STRING=postgres://harca:harca_password@localhost:3730/harca_db`\n2. VectorStore機能のテスト実施\n3. ファイルベースのストレージからPostgreSQLへの移行検討\n          ",
+  "id": "8dffe3df282379c0e86aeeb111fda186"
+}

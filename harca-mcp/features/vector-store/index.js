@@ -30,9 +30,27 @@ class VectorStore {
    */
   constructor(config = {}) {
     // PostgreSQL接続設定
-    this.pool = new Pool({
-      connectionString: process.env.SUPABASE_CONNECTION_STRING
-    });
+    try {
+      // 複数の可能性のある接続文字列環境変数をチェック
+      const connectionString = 
+        process.env.POSTGRES_CONNECTION_STRING || 
+        process.env.HARCA_POSTGRES_CONNECTION_STRING || 
+        process.env.SUPABASE_CONNECTION_STRING;
+      
+      if (!connectionString) {
+        throw new Error('PostgreSQL接続文字列が設定されていません');
+      }
+      
+      console.log('PostgreSQL接続を初期化します...');
+      this.pool = new Pool({ connectionString });
+      
+      // 接続テスト
+      this.testConnection();
+    } catch (error) {
+      console.error('PostgreSQL接続の初期化に失敗しました:', error.message);
+      console.warn('ベクトルストアの機能は制限されます');
+      this.pool = null;
+    }
     
     // モデルマネージャーの初期化
     this.modelManager = new ModelManager(config.modelManager || {});
@@ -61,6 +79,25 @@ class VectorStore {
     console.log(`ベクトルストアを初期化しました: モデル=${this.activeModelId}`);
     if (this.useCache) {
       console.log('埋め込みキャッシュが有効です');
+    }
+  }
+  
+  /**
+   * PostgreSQL接続をテスト
+   * @private
+   */
+  async testConnection() {
+    if (!this.pool) return false;
+    
+    try {
+      const client = await this.pool.connect();
+      await client.query('SELECT NOW()');
+      client.release();
+      console.log('PostgreSQL接続テスト成功');
+      return true;
+    } catch (error) {
+      console.error('PostgreSQL接続テスト失敗:', error.message);
+      return false;
     }
   }
   
@@ -358,6 +395,11 @@ class VectorStore {
    */
   async indexCode(content, metadata = {}) {
     try {
+      // PostgreSQL接続がない場合はエラー
+      if (!this.pool) {
+        throw new Error('PostgreSQL接続が利用できません');
+      }
+      
       // 埋め込みベクトルを生成
       const embedding = await this.generateEmbedding(content);
       
@@ -367,20 +409,47 @@ class VectorStore {
       // メタデータをJSON文字列に変換
       const metadataString = JSON.stringify(metadata);
       
-      // データベースに保存
-      const query = `
-        INSERT INTO code_vectors (content, embedding, metadata)
-        VALUES ($1, $2::vector, $3::jsonb)
-        RETURNING id
+      // テーブル存在確認
+      const tableExistsQuery = `
+        SELECT EXISTS (
+          SELECT FROM information_schema.tables 
+          WHERE table_name = 'embeddings'
+        );
       `;
       
-      const result = await this.pool.query(query, [content, vectorString, metadataString]);
+      const tableExists = await this.pool.query(tableExistsQuery);
       
-      return {
-        success: true,
-        id: result.rows[0].id,
-        message: 'コードが正常にインデックス化されました'
-      };
+      if (tableExists.rows[0].exists) {
+        // embeddingsテーブルを使用
+        const query = `
+          INSERT INTO embeddings (content, embedding, metadata)
+          VALUES ($1, $2::jsonb, $3::jsonb)
+          RETURNING id
+        `;
+        
+        const result = await this.pool.query(query, [content, JSON.stringify(embedding), metadataString]);
+        
+        return {
+          success: true,
+          id: result.rows[0].id,
+          message: 'コードが正常にインデックス化されました'
+        };
+      } else {
+        // code_vectorsテーブルを使用（後方互換性のため）
+        const query = `
+          INSERT INTO code_vectors (content, embedding, metadata)
+          VALUES ($1, $2::vector, $3::jsonb)
+          RETURNING id
+        `;
+        
+        const result = await this.pool.query(query, [content, vectorString, metadataString]);
+        
+        return {
+          success: true,
+          id: result.rows[0].id,
+          message: 'コードが正常にインデックス化されました'
+        };
+      }
     } catch (error) {
       console.error('コードのインデックス化中にエラーが発生しました:', error);
       
@@ -400,21 +469,52 @@ class VectorStore {
    */
   async searchSimilarCode(query, limit = 5) {
     try {
+      // PostgreSQL接続がない場合はエラー
+      if (!this.pool) {
+        throw new Error('PostgreSQL接続が利用できません');
+      }
+      
       // クエリの埋め込みベクトルを生成
       const queryEmbedding = await this.generateEmbedding(query);
       
       // ベクトル形式に変換
       const vectorString = `[${queryEmbedding.join(',')}]`;
       
-      // 類似度検索クエリ
-      const searchQuery = `
-        SELECT id, content, metadata, 1 - (embedding <=> $1::vector) as similarity
-        FROM code_vectors
-        ORDER BY similarity DESC
-        LIMIT $2
+      // テーブル存在確認
+      const tableExistsQuery = `
+        SELECT EXISTS (
+          SELECT FROM information_schema.tables 
+          WHERE table_name = 'embeddings'
+        );
       `;
       
-      const result = await this.pool.query(searchQuery, [vectorString, limit]);
+      const tableExists = await this.pool.query(tableExistsQuery);
+      
+      let result;
+      
+      if (tableExists.rows[0].exists) {
+        // embeddingsテーブルを使用
+        const searchQuery = `
+          SELECT id, content, metadata, 
+            1 - (embedding_vector <=> $1::vector) as similarity
+          FROM embeddings
+          ORDER BY similarity DESC
+          LIMIT $2
+        `;
+        
+        result = await this.pool.query(searchQuery, [vectorString, limit]);
+      } else {
+        // code_vectorsテーブルを使用（後方互換性のため）
+        const searchQuery = `
+          SELECT id, content, metadata, 
+            1 - (embedding <=> $1::vector) as similarity
+          FROM code_vectors
+          ORDER BY similarity DESC
+          LIMIT $2
+        `;
+        
+        result = await this.pool.query(searchQuery, [vectorString, limit]);
+      }
       
       // 結果を整形
       return result.rows.map(row => ({
@@ -435,10 +535,40 @@ class VectorStore {
    */
   async getStatus() {
     try {
-      // データベース内のベクトル数を取得
-      const countQuery = 'SELECT COUNT(*) FROM code_vectors';
-      const countResult = await this.pool.query(countQuery);
-      const vectorCount = parseInt(countResult.rows[0].count, 10);
+      let vectorCount = 0;
+      
+      // PostgreSQL接続がある場合のみデータベース情報を取得
+      if (this.pool) {
+        try {
+          // embeddingsテーブルの確認
+          const embeddingsQuery = `
+            SELECT COUNT(*) FROM embeddings
+            WHERE EXISTS (
+              SELECT FROM information_schema.tables 
+              WHERE table_name = 'embeddings'
+            );
+          `;
+          
+          const embeddingsResult = await this.pool.query(embeddingsQuery).catch(() => ({ rows: [{ count: 0 }] }));
+          const embeddingsCount = parseInt(embeddingsResult.rows[0].count, 10) || 0;
+          
+          // code_vectorsテーブルの確認
+          const codeVectorsQuery = `
+            SELECT COUNT(*) FROM code_vectors
+            WHERE EXISTS (
+              SELECT FROM information_schema.tables 
+              WHERE table_name = 'code_vectors'
+            );
+          `;
+          
+          const codeVectorsResult = await this.pool.query(codeVectorsQuery).catch(() => ({ rows: [{ count: 0 }] }));
+          const codeVectorsCount = parseInt(codeVectorsResult.rows[0].count, 10) || 0;
+          
+          vectorCount = embeddingsCount + codeVectorsCount;
+        } catch (error) {
+          console.error('ベクトル数の取得中にエラーが発生しました:', error.message);
+        }
+      }
       
       // キャッシュ情報
       const cacheInfo = this.useCache ? this.cache.getStats() : null;
@@ -456,6 +586,7 @@ class VectorStore {
         availableModels: allModels,
         cache: cacheInfo,
         errorLog: errorLog.slice(-10), // 最新の10件のみ
+        postgresConnected: !!this.pool,
         timestamp: new Date().toISOString()
       };
     } catch (error) {
@@ -463,6 +594,7 @@ class VectorStore {
       
       return {
         error: error.message,
+        postgresConnected: !!this.pool,
         timestamp: new Date().toISOString()
       };
     }

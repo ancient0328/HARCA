@@ -1,0 +1,103 @@
+{
+  "tests": [
+    {
+      "name": "キャッシュインスタンスの初期化",
+      "passed": true,
+      "message": "3つのキャッシュインスタンスが正常に初期化されました",
+      "details": {},
+      "timestamp": "2025-03-24T22:43:04.127Z"
+    },
+    {
+      "name": "キャッシュへのデータ設定",
+      "passed": true,
+      "message": "5個のアイテムをインスタンス1に設定しました",
+      "details": {},
+      "timestamp": "2025-03-24T22:43:04.672Z"
+    },
+    {
+      "name": "Redisキャッシュからのデータ取得",
+      "passed": true,
+      "message": "他のインスタンスからすべてのデータを取得できました",
+      "details": {},
+      "timestamp": "2025-03-24T22:43:04.676Z"
+    },
+    {
+      "name": "invalidateイベントの伝播",
+      "passed": false,
+      "message": "invalidateイベントが他のインスタンスに正しく伝播されました",
+      "details": {
+        "invalidatedKey": "0e6ea71457341aea6eac4e553c949a0a3c6210696bf388fb29fde4a7e251cf38",
+        "instance2HasData": true,
+        "instance3HasData": true
+      },
+      "timestamp": "2025-03-24T22:43:05.178Z"
+    },
+    {
+      "name": "clearModelイベントの伝播",
+      "passed": false,
+      "message": "clearModelイベントが他のインスタンスに正しく伝播されました",
+      "details": {
+        "clearedModel": "test-model-1",
+        "model1ClearedFromInstance2": false,
+        "model1ClearedFromInstance3": false,
+        "model2StillInInstance2": true,
+        "model2StillInInstance3": true
+      },
+      "timestamp": "2025-03-24T22:43:05.683Z"
+    },
+    {
+      "name": "bulkDeleteイベントの伝播",
+      "passed": false,
+      "message": "bulkDeleteイベントが他のインスタンスに正しく伝播されました",
+      "details": {
+        "pattern": "PubSubテスト*:test-model-2",
+        "model2ItemsDeleted": false,
+        "model3ItemsPreserved": true
+      },
+      "timestamp": "2025-03-24T22:43:06.189Z"
+    },
+    {
+      "name": "clearイベントの伝播",
+      "passed": true,
+      "message": "clearイベントが他のインスタンスに正しく伝播されました",
+      "details": {
+        "newItemRetrievedBeforeClear": true,
+        "allInstancesCleared": true
+      },
+      "timestamp": "2025-03-24T22:43:06.694Z"
+    },
+    {
+      "name": "同期統計情報",
+      "passed": {
+        "memory": 5,
+        "file": 0,
+        "redis": 0,
+        "total": 0
+      },
+      "message": "同期統計情報が正しく記録されています",
+      "details": {
+        "instance1Syncs": {
+          "memory": 1,
+          "file": 0,
+          "total": 0
+        },
+        "instance2Syncs": {
+          "memory": 6,
+          "file": 0,
+          "total": 0
+        },
+        "instance3Syncs": {
+          "memory": 5,
+          "file": 0,
+          "total": 0
+        }
+      },
+      "timestamp": "2025-03-24T22:43:06.702Z"
+    }
+  ],
+  "summary": {
+    "totalTests": 8,
+    "passedTests": 5,
+    "failedTests": 3
+  }
+}

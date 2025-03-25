@@ -1,0 +1,16 @@
+{
+  "id": "3c3a5e8087768f836e321d48187f17d5",
+  "title": "問題1: キャッシュキー生成の不一致",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.356Z",
+  "sectionIndex": 2,
+  "wordCount": 4,
+  "charCount": 22,
+  "content": "## 問題1: キャッシュキー生成の不一致\n"
+}

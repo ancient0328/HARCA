@@ -1,7 +1,14 @@
 // features/vector-store/test-embedding-cache.js - 埋め込みキャッシュのテスト
-const { EmbeddingCache } = require('./embedding-cache');
-const path = require('path');
-const fs = require('fs');
+import { EmbeddingCache } from './embedding-cache.js';
+import path from 'path';
+import fs from 'fs';
+import crypto from 'crypto';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// ESモジュールで__dirnameを取得するための設定
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * キャッシュのパフォーマンステスト
@@ -33,7 +40,7 @@ async function testCachePerformance() {
   // テスト用の埋め込みベクトル生成関数
   function generateMockEmbedding(text) {
     // 実際の埋め込みモデルの代わりに、テキストからハッシュベースの埋め込みを生成
-    const hash = require('crypto').createHash('sha256').update(text).digest('hex');
+    const hash = crypto.createHash('sha256').update(text).digest('hex');
     const embedding = [];
     for (let i = 0; i < 1536; i++) {
       // ハッシュの各文字を数値に変換して正規化
@@ -172,7 +179,7 @@ async function testCacheStrategies() {
   
   // テスト用の埋め込みベクトル生成関数
   function generateMockEmbedding(text) {
-    const hash = require('crypto').createHash('sha256').update(text).digest('hex');
+    const hash = crypto.createHash('sha256').update(text).digest('hex');
     const embedding = [];
     for (let i = 0; i < 1536; i++) {
       const charIndex = i % hash.length;

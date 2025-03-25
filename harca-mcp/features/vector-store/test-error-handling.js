@@ -1,10 +1,16 @@
 // features/vector-store/test-error-handling.js
-const { ModelManager } = require('./model-manager');
-const { VectorStore } = require('./index');
-const { OpenAIEmbeddingModel } = require('./openai-model');
-const { LocalEmbeddingModel } = require('./local-model');
-const { SimpleHashEmbeddingModel } = require('./simple-hash');
-const { ErrorHandler, ErrorTypes, SeverityLevels, RecoveryStrategies } = require('./error-handler');
+import { ModelManager } from './model-manager.js';
+import { VectorStore } from './index.js';
+import { OpenAIEmbeddingModel } from './openai-model.js';
+import { LocalEmbeddingModel } from './local-model.js';
+import { SimpleHashEmbeddingModel } from './simple-hash.js';
+import { ErrorHandler, ErrorTypes, SeverityLevels, RecoveryStrategies } from './error-handler.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// ESモジュールで__dirnameを取得するための設定
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * 様々なエラーパターンをシミュレートするためのモックモデル
@@ -516,21 +522,12 @@ async function testErrorHandling() {
 }
 
 // テスト実行
-if (require.main === module) {
-  console.log('エラーハンドリングテストを実行します...');
-  testErrorHandling()
-    .then(() => {
-      console.log('すべてのテストが完了しました。');
-    })
-    .catch(err => {
-      console.error('テスト実行中にエラーが発生しました:', err);
-    });
-}
+console.log('エラーハンドリングテストを実行します...');
+testErrorHandling();
 
-module.exports = {
+// ESモジュールエクスポート
+export {
   MockEmbeddingModel,
   TestModelManager,
-  testErrorHandling,
-  testModel,
-  testSpecificErrorTypes
+  testErrorHandling
 };

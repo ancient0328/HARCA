@@ -1,0 +1,16 @@
+{
+  "id": "dec7926075ad8aac24f3dc89a3a7fc82",
+  "title": "問題の詳細",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.356Z",
+  "sectionIndex": 3,
+  "wordCount": 11,
+  "charCount": 238,
+  "content": "### 問題の詳細\nEmbeddingCacheクラスとRedisCacheManagerクラスで異なるハッシュアルゴリズムを使用してキャッシュキーを生成していました：\n- EmbeddingCache: SHA-256ハッシュ（generateKeyメソッド）\n- RedisCacheManager: MD5ハッシュ（_getCacheKeyメソッド）\n\nこれにより、同じテキストとモデル名に対して異なるキーが生成され、キャッシュの無効化が正しく機能していませんでした。\n"
+}

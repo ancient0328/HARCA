@@ -1,0 +1,16 @@
+{
+  "id": "6e893b9c36ed259c07c4ba159d209948",
+  "title": "解決策",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.358Z",
+  "sectionIndex": 9,
+  "wordCount": 127,
+  "charCount": 1419,
+  "content": "### 解決策\n\n#### 1. 無限ループの解決\nEmbeddingCacheのclearModelCacheメソッドを修正：\n```javascript\n// 修正前\nif (this.config.enableRedisCache && this.redisCache && sourceInstanceId !== this.config.instanceId) {\n  await this.redisCache.clearModelCache(modelName, this.config.instanceId);\n}\n\n// 修正後\nif (this.config.enableRedisCache && this.redisCache && sourceInstanceId !== this.instanceId) {\n  await this.redisCache.clearModelCache(modelName, this.instanceId);\n}\n```\n\nイベントリスナーでの自分自身が発行したイベントを無視する処理を追加：\n```javascript\n// 送信元のインスタンスIDを確認\nif (sourceInstance === this.instanceId) {\n  console.log('自分自身が発行したイベントのため、処理をスキップします');\n  return;\n}\n```\n\n#### 2. ファイルキャッシュの処理修正\nファイル内容を読み取ってmodelNameをチェックするように変更：\n```javascript\n// ファイル内容を読み取ってmodelNameをチェックする\nfor (const file of files) {\n  const filePath = path.join(this.config.cacheDir, file);\n  try {\n    // ファイルの内容を読み取る\n    const fileContent = fs.readFileSync(filePath, 'utf8');\n    const cacheEntry = JSON.parse(fileContent);\n    \n    // モデル名が一致するかチェック\n    if (cacheEntry && cacheEntry.modelName === modelName) {\n      fs.unlinkSync(filePath);\n      deletedCount++;\n    }\n  } catch (fileError) {\n    console.error(`ファイル ${file} の処理中にエラーが発生しました:`, fileError);\n  }\n}\n```\n\n#### 3. Redis PubSub伝播の修正\nRedisCacheManagerのclearModelCacheメソッドを修正：\n```javascript\n// 修正前\nconst keys = await this.redis.keys(`${this.config.keyPrefix}:*`);\n\n// 修正後\nconst keys = await this.redis.keys(`${this.config.keyPrefix}*`);\n```\n"
+}

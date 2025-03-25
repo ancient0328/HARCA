@@ -1,0 +1,16 @@
+{
+  "id": "9b7ff8b3b90a814209071fd703b85033",
+  "title": "解決策",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.357Z",
+  "sectionIndex": 5,
+  "wordCount": 70,
+  "charCount": 882,
+  "content": "### 解決策\n1. EmbeddingCacheのgetメソッドを修正：\n   ```javascript\n   // 修正前\n   const redisResult = await this.redisCache.get(key);\n   \n   // 修正後\n   const redisResult = await this.redisCache.get(text, modelName);\n   ```\n\n2. EmbeddingCacheのdeleteメソッドを修正：\n   ```javascript\n   // 修正前\n   await this.redisCache.delete(key);\n   this.redisCache.publishInvalidationEvent(key, modelName);\n   \n   // 修正後\n   await this.redisCache.delete(text, modelName);\n   this.redisCache.publishInvalidationEvent(text, modelName);\n   ```\n\n3. RedisCacheManagerのpublishInvalidationEventメソッドを修正：\n   ```javascript\n   // 修正前\n   publishInvalidationEvent(key, modelName) {\n     this._publishMessage('invalidate', key, { modelName });\n   }\n   \n   // 修正後\n   publishInvalidationEvent(text, modelName) {\n     const key = this._getCacheKey(text, modelName);\n     this._publishMessage('invalidate', key, { modelName });\n   }\n   ```\n"
+}

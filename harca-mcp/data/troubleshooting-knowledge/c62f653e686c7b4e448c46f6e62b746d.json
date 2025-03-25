@@ -1,0 +1,16 @@
+{
+  "id": "c62f653e686c7b4e448c46f6e62b746d",
+  "title": "学んだ教訓",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.359Z",
+  "sectionIndex": 11,
+  "wordCount": 31,
+  "charCount": 356,
+  "content": "## 学んだ教訓\n\n1. **分散システムの設計における注意点**\n   - イベント伝播時の無限ループを防ぐためのソースIDチェックの重要性\n   - 同一データに対する一貫したキー生成の必要性\n\n2. **テスト設計の改善点**\n   - タイムアウト設定の重要性（無限ループの早期検出）\n   - 詳細なログ出力によるデバッグの容易化\n\n3. **コード品質の向上策**\n   - インスタンスIDの参照を統一（config.instanceId vs instanceId）\n   - ファイル操作時の適切なエラーハンドリング\n\n4. **将来の改善案**\n   - ユニットテストの追加（特にエッジケースのテスト）\n   - パフォーマンスモニタリングの強化\n   - 自動リカバリーメカニズムの実装\n"
+}

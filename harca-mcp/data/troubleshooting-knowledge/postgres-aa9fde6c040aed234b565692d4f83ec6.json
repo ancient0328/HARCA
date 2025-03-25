@@ -1,0 +1,5 @@
+{
+  "title": "テーブル互換性の確保",
+  "content": "\n```javascript\n// テーブル存在確認\nconst tableExistsQuery = `\n  SELECT EXISTS (\n    SELECT FROM information_schema.tables \n    WHERE table_name = 'embeddings'\n  );\n`;\n\nconst tableExists = await this.pool.query(tableExistsQuery);\n\nif (tableExists.rows[0].exists) {\n  // embeddingsテーブルを使用\n  const query = `\n    INSERT INTO embeddings (content, embedding, metadata)\n    VALUES ($1, $2::jsonb, $3::jsonb)\n    RETURNING id\n  `;\n  \n  const result = await this.pool.query(query, [content, JSON.stringify(embedding), metadataString]);\n} else {\n  // code_vectorsテーブルを使用（後方互換性のため）\n  const query = `\n    INSERT INTO code_vectors (content, embedding, metadata)\n    VALUES ($1, $2::vector, $3::jsonb)\n    RETURNING id\n  `;\n  \n  const result = await this.pool.query(query, [content, vectorString, metadataString]);\n}\n```\n          ",
+  "id": "aa9fde6c040aed234b565692d4f83ec6"
+}

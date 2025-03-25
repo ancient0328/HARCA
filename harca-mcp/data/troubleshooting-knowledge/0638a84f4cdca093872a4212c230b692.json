@@ -1,0 +1,16 @@
+{
+  "id": "0638a84f4cdca093872a4212c230b692",
+  "title": "結論",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.359Z",
+  "sectionIndex": 12,
+  "wordCount": 5,
+  "charCount": 145,
+  "content": "## 結論\n\nRedis PubSubを使用した分散キャッシュ無効化の仕組みが正常に動作するようになり、複数のインスタンス間でキャッシュの一貫性が維持されるようになりました。このトラブルシューティングの経験は、分散システムにおけるイベント伝播の設計と実装に関する貴重な知見を提供しました。\n"
+}

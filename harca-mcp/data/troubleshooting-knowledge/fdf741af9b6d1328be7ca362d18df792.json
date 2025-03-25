@@ -1,0 +1,16 @@
+{
+  "id": "fdf741af9b6d1328be7ca362d18df792",
+  "title": "テスト結果",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.359Z",
+  "sectionIndex": 10,
+  "wordCount": 12,
+  "charCount": 146,
+  "content": "## テスト結果\n\n修正後、テストが正常に完了し、以下の点が確認されました：\n- キャッシュインスタンスが正常に初期化される\n- データの設定と取得が正常に機能する\n- モデルキャッシュのクリア処理が正しく動作し、無限ループが発生しない\n- 自分自身が発行したイベントは適切にスキップされる\n"
+}

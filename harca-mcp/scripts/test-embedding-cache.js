@@ -1,7 +1,7 @@
 // scripts/test-embedding-cache.js - 埋め込みキャッシュとエラーハンドリングのテスト
-const { OpenAIEmbeddingModel } = require('../features/vector-store/openai-model');
-const { EmbeddingCache } = require('../features/vector-store/embedding-cache');
-const dotenv = require('dotenv');
+import { OpenAIEmbeddingModel } from '../features/vector-store/openai-model.js';
+import { EmbeddingCache } from '../features/vector-store/embedding-cache.js';
+import dotenv from 'dotenv';
 
 // 環境変数読み込み
 dotenv.config();

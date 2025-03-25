@@ -1,6 +1,19 @@
 // features/vector-store/test-model-manager.js - モデルマネージャーのテスト
-const { ModelManager } = require('./model-manager');
-const { VectorStore } = require('./index');
+import { ModelManager } from './model-manager.js';
+import { VectorStore } from './index.js';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+import dotenv from 'dotenv';
+
+// ESモジュールで__dirnameを取得するための設定
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// 環境変数の読み込み - プロジェクトルートの.envファイルを指定
+const envPath = resolve(__dirname, '../../.env');
+dotenv.config({ path: envPath });
+console.log(`環境変数を読み込みました: ${envPath}`);
+console.log(`OPENAI_API_KEY: ${process.env.OPENAI_API_KEY ? '設定済み' : '未設定'}`);
 
 /**
  * モデルマネージャーの基本機能をテスト

@@ -1,0 +1,216 @@
+{
+  "title": "Redis PubSubトラブルシューティング知識ベース",
+  "description": "Redis PubSubを使用した分散キャッシュシステムのトラブルシューティング情報",
+  "created": "2025-03-24T22:55:59.354Z",
+  "updated": "2025-03-24T22:55:59.355Z",
+  "sections": [
+    {
+      "id": "0ee15e1688ac1f2340e1e68d3d137523",
+      "title": "Redis PubSubトラブルシューティングレポート（全体）",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.355Z",
+      "sectionIndex": 0,
+      "wordCount": 312,
+      "charCount": 4102,
+      "contentPreview": "# Redis PubSubトラブルシューティングレポート\n\n## 概要\n\nRedis PubSubを使用した分散キャッシュ無効化機能において、無限ループとキャッシュキー生成の不一致という2つの重大な問題を特定し、解決しました。このドキュメントでは、問題の詳細な分析、解決策、および学んだ教訓を記録し..."
+    },
+    {
+      "id": "f0311f0387444698c625eba172454542",
+      "title": "概要",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.356Z",
+      "sectionIndex": 1,
+      "wordCount": 5,
+      "charCount": 123,
+      "contentPreview": "## 概要\n\nRedis PubSubを使用した分散キャッシュ無効化機能において、無限ループとキャッシュキー生成の不一致という2つの重大な問題を特定し、解決しました。このドキュメントでは、問題の詳細な分析、解決策、および学んだ教訓を記録します。\n"
+    },
+    {
+      "id": "3c3a5e8087768f836e321d48187f17d5",
+      "title": "問題1: キャッシュキー生成の不一致",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.356Z",
+      "sectionIndex": 2,
+      "wordCount": 4,
+      "charCount": 22,
+      "contentPreview": "## 問題1: キャッシュキー生成の不一致\n"
+    },
+    {
+      "id": "dec7926075ad8aac24f3dc89a3a7fc82",
+      "title": "問題の詳細",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.356Z",
+      "sectionIndex": 3,
+      "wordCount": 11,
+      "charCount": 238,
+      "contentPreview": "### 問題の詳細\nEmbeddingCacheクラスとRedisCacheManagerクラスで異なるハッシュアルゴリズムを使用してキャッシュキーを生成していました：\n- EmbeddingCache: SHA-256ハッシュ（generateKeyメソッド）\n- RedisCacheManage..."
+    },
+    {
+      "id": "c15f34d1a0ae41863bcf2a37308c2e12",
+      "title": "問題の影響",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.357Z",
+      "sectionIndex": 4,
+      "wordCount": 9,
+      "charCount": 83,
+      "contentPreview": "### 問題の影響\n- 同じデータに対して複数のキャッシュエントリが作成される\n- キャッシュ無効化イベントが正しく伝播されない\n- メモリとストレージの無駄な使用\n"
+    },
+    {
+      "id": "9b7ff8b3b90a814209071fd703b85033",
+      "title": "解決策",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.357Z",
+      "sectionIndex": 5,
+      "wordCount": 70,
+      "charCount": 882,
+      "contentPreview": "### 解決策\n1. EmbeddingCacheのgetメソッドを修正：\n   ```javascript\n   // 修正前\n   const redisResult = await this.redisCache.get(key);\n   \n   // 修正後\n   const redisRe..."
+    },
+    {
+      "id": "e753dc5b063d1309cfc407f176abd69a",
+      "title": "問題2: clearModelCacheメソッドの無限ループと伝播の問題",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.357Z",
+      "sectionIndex": 6,
+      "wordCount": 4,
+      "charCount": 40,
+      "contentPreview": "## 問題2: clearModelCacheメソッドの無限ループと伝播の問題\n"
+    },
+    {
+      "id": "29f7f8b73062d6383a94f3a5acb34be2",
+      "title": "問題の詳細",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.358Z",
+      "sectionIndex": 7,
+      "wordCount": 31,
+      "charCount": 539,
+      "contentPreview": "### 問題の詳細\nテストが `モデル test-model-1 のキャッシュをクリアします...` から進まなくなる問題を特定しました。`clearModelCache`メソッドに複数の問題がありました：\n\n1. **無限ループの問題**：\n   - EmbeddingCacheのclearMod..."
+    },
+    {
+      "id": "66fe757bec2b0ad8c588115833ce062f",
+      "title": "問題の影響",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.358Z",
+      "sectionIndex": 8,
+      "wordCount": 11,
+      "charCount": 67,
+      "contentPreview": "### 問題の影響\n- テストが無限ループに陥り、完了しない\n- CPU使用率の急上昇\n- Redis接続の過負荷\n- メモリリーク\n"
+    },
+    {
+      "id": "6e893b9c36ed259c07c4ba159d209948",
+      "title": "解決策",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.358Z",
+      "sectionIndex": 9,
+      "wordCount": 127,
+      "charCount": 1419,
+      "contentPreview": "### 解決策\n\n#### 1. 無限ループの解決\nEmbeddingCacheのclearModelCacheメソッドを修正：\n```javascript\n// 修正前\nif (this.config.enableRedisCache && this.redisCache && sourceIns..."
+    },
+    {
+      "id": "fdf741af9b6d1328be7ca362d18df792",
+      "title": "テスト結果",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.359Z",
+      "sectionIndex": 10,
+      "wordCount": 12,
+      "charCount": 146,
+      "contentPreview": "## テスト結果\n\n修正後、テストが正常に完了し、以下の点が確認されました：\n- キャッシュインスタンスが正常に初期化される\n- データの設定と取得が正常に機能する\n- モデルキャッシュのクリア処理が正しく動作し、無限ループが発生しない\n- 自分自身が発行したイベントは適切にスキップされる\n"
+    },
+    {
+      "id": "c62f653e686c7b4e448c46f6e62b746d",
+      "title": "学んだ教訓",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.359Z",
+      "sectionIndex": 11,
+      "wordCount": 31,
+      "charCount": 356,
+      "contentPreview": "## 学んだ教訓\n\n1. **分散システムの設計における注意点**\n   - イベント伝播時の無限ループを防ぐためのソースIDチェックの重要性\n   - 同一データに対する一貫したキー生成の必要性\n\n2. **テスト設計の改善点**\n   - タイムアウト設定の重要性（無限ループの早期検出）\n   ..."
+    },
+    {
+      "id": "0638a84f4cdca093872a4212c230b692",
+      "title": "結論",
+      "source": "troubleshooting-redis-pubsub",
+      "category": "distributed-cache",
+      "technology": [
+        "redis",
+        "pubsub",
+        "caching"
+      ],
+      "date": "2025-03-24T22:55:59.359Z",
+      "sectionIndex": 12,
+      "wordCount": 5,
+      "charCount": 145,
+      "contentPreview": "## 結論\n\nRedis PubSubを使用した分散キャッシュ無効化の仕組みが正常に動作するようになり、複数のインスタンス間でキャッシュの一貫性が維持されるようになりました。このトラブルシューティングの経験は、分散システムにおけるイベント伝播の設計と実装に関する貴重な知見を提供しました。\n"
+    }
+  ]
+}

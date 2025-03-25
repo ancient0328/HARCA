@@ -18,14 +18,14 @@ class OpenAIEmbeddingModel {
   constructor(config = {}) {
     // OpenAI APIクライアントの初期化
     this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY
+      apiKey: process.env.HARCA_OPENAI_API_KEY || process.env.OPENAI_API_KEY
     });
     
     // モデルマネージャーの初期化
     this.modelManager = new ModelManager();
     
     // 使用するモデルの設定
-    this.modelId = config.modelId || process.env.OPENAI_EMBEDDING_MODEL || 'openai-ada-002';
+    this.modelId = config.modelId || process.env.HARCA_OPENAI_MODEL || process.env.OPENAI_EMBEDDING_MODEL || 'openai-ada-002';
     const modelInfo = this.modelManager.getModelInfo(this.modelId);
     
     if (!modelInfo || modelInfo.provider !== 'openai') {

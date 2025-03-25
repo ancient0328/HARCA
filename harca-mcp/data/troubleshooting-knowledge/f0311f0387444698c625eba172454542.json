@@ -1,0 +1,16 @@
+{
+  "id": "f0311f0387444698c625eba172454542",
+  "title": "概要",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.356Z",
+  "sectionIndex": 1,
+  "wordCount": 5,
+  "charCount": 123,
+  "content": "## 概要\n\nRedis PubSubを使用した分散キャッシュ無効化機能において、無限ループとキャッシュキー生成の不一致という2つの重大な問題を特定し、解決しました。このドキュメントでは、問題の詳細な分析、解決策、および学んだ教訓を記録します。\n"
+}

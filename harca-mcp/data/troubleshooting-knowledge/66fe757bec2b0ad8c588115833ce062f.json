@@ -1,0 +1,16 @@
+{
+  "id": "66fe757bec2b0ad8c588115833ce062f",
+  "title": "問題の影響",
+  "source": "troubleshooting-redis-pubsub",
+  "category": "distributed-cache",
+  "technology": [
+    "redis",
+    "pubsub",
+    "caching"
+  ],
+  "date": "2025-03-24T22:55:59.358Z",
+  "sectionIndex": 8,
+  "wordCount": 11,
+  "charCount": 67,
+  "content": "### 問題の影響\n- テストが無限ループに陥り、完了しない\n- CPU使用率の急上昇\n- Redis接続の過負荷\n- メモリリーク\n"
+}

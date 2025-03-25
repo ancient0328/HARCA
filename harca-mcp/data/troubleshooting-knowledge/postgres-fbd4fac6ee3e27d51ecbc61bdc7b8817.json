@@ -1,0 +1,5 @@
+{
+  "title": "診断結果",
+  "content": "\n- PostgreSQLサーバーは正常に動作（ポート3730）\n- pgvector拡張がインストール済み\n- `embeddings`テーブルと`code_vectors`テーブルが存在\n- `code_vectors`テーブルには5件のレコード\n          ",
+  "id": "fbd4fac6ee3e27d51ecbc61bdc7b8817"
+}
