@@ -3,7 +3,9 @@
 	"scripts": {
 		"create-log-entry": "node scripts/create-log-entry.js",
 		"backup-documents": "node scripts/create-document-backup.js",
-		"validate-docs": "node scripts/validate-document-structure.js"
+		"validate-docs": "node scripts/validate-document-structure.js",
+		"start": "node harca-mcp/index.js",
+		"dev": "nodemon harca-mcp/index.js"
 	},
 	"devDependencies": {
 		"node-fetch": "^3.3.2"
